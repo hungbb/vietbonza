@@ -10,7 +10,7 @@ var result = 'Drag a sprite';
 game_state.main = function() {};
 game_state.main.prototype = {
     preload: function() {
-        game.load.image("atari", "assets/play.png");
+        game.load.image("atari", "assets/pipe.png");
 
     },
     create: function() {
@@ -36,18 +36,20 @@ game_state.main.prototype = {
         window.graphics = graphics;
 
 
-        var atari = game.add.sprite(32, 100, 'atari');
-        atari.scale.setTo(0.5, 0.5);
+        var atari = game.add.sprite(100, 100, 'atari');
+        //atari.scale.setTo(0.5, 0.5);
         //  //  Enable input and allow for dragging
         atari.inputEnabled = true;
         atari.input.enableDrag();
         atari.events.onDragStart.add(this.onDragStart, this);
         atari.events.onDragStop.add(this.onDragStop, this);
+        var text = game.add.text(15,13, "A", {font: "24px Arial", fill: "#ffffff"});
+        atari.addChild(text);
 
 
     },
     onDragStart: function(sprite, pointer) {
-        result = "Dragging " + sprite.key;
+        //result = "Dragging " + sprite.key;
     },
     onDragStop: function(sprite, pointer) {
         //result = sprite.key + " dropped at x:" + sprite.x + " y: " + sprite.y;
@@ -57,7 +59,7 @@ game_state.main.prototype = {
         var m=parseInt(sprite.x/tile_width)*tile_width;
         var n=parseInt(sprite.y/tile_width)*tile_width;
         var k=tile_width/2;
-        result=sprite.x+":"+m+ " - "+ n + " = " +k;
+        //result=sprite.x+":"+m+ " - "+ n + " = " +k;
         if(sprite.x>=m && sprite.x<=m+k) 
             sprite.x=m;
         else
