@@ -10,7 +10,7 @@ var result = 'Drag a sprite';
 game_state.main = function() {};
 game_state.main.prototype = {
     preload: function() {
-        game.load.image("atari", "assets/pipe.png");
+        game.load.image("atari", "assets/pile.jpg");
 
     },
     create: function() {
@@ -35,7 +35,6 @@ game_state.main.prototype = {
             }
         window.graphics = graphics;
 
-
         var atari = game.add.sprite(100, 100, 'atari');
         //atari.scale.setTo(0.5, 0.5);
         //  //  Enable input and allow for dragging
@@ -43,8 +42,25 @@ game_state.main.prototype = {
         atari.input.enableDrag();
         atari.events.onDragStart.add(this.onDragStart, this);
         atari.events.onDragStop.add(this.onDragStop, this);
-        var text = game.add.text(15,13, "A", {font: "24px Arial", fill: "#ffffff"});
+        var text = game.add.text(14, 9, "A", {
+            font: "24px Comic Sans MS",
+            fill: "#ffffff"
+        });
         atari.addChild(text);
+
+
+        var atari1 = game.add.sprite(200, 200, 'atari');
+        //atari.scale.setTo(0.5, 0.5);
+        //  //  Enable input and allow for dragging
+        atari1.inputEnabled = true;
+        atari1.input.enableDrag();
+        atari1.events.onDragStart.add(this.onDragStart, this);
+        atari1.events.onDragStop.add(this.onDragStop, this);
+        var text = game.add.text(14, 9, "X", {
+            font: "24px Comic Sans MS",
+            fill: "#ffffff"
+        });
+        atari1.addChild(text);
 
 
     },
@@ -53,21 +69,21 @@ game_state.main.prototype = {
     },
     onDragStop: function(sprite, pointer) {
         //result = sprite.key + " dropped at x:" + sprite.x + " y: " + sprite.y;
-        sprite.x=Math.min(Math.max(sprite.x,0),game_width-tile_width);
-        sprite.y=Math.min(Math.max(sprite.y,0),game_height-tile_width);
+        sprite.x = Math.min(Math.max(sprite.x, 0), game_width - tile_width);
+        sprite.y = Math.min(Math.max(sprite.y, 0), game_height - tile_width);
 
-        var m=parseInt(sprite.x/tile_width)*tile_width;
-        var n=parseInt(sprite.y/tile_width)*tile_width;
-        var k=tile_width/2;
+        var m = parseInt(sprite.x / tile_width) * tile_width;
+        var n = parseInt(sprite.y / tile_width) * tile_width;
+        var k = tile_width / 2;
         //result=sprite.x+":"+m+ " - "+ n + " = " +k;
-        if(sprite.x>=m && sprite.x<=m+k) 
-            sprite.x=m;
+        if (sprite.x >= m && sprite.x <= m + k)
+            sprite.x = m;
         else
-            sprite.x=m+tile_width;
-        if(sprite.y>=n && sprite.y<=n+k) 
-            sprite.y=n;
+            sprite.x = m + tile_width;
+        if (sprite.y >= n && sprite.y <= n + k)
+            sprite.y = n;
         else
-            sprite.y=n+tile_width;
+            sprite.y = n + tile_width;
     },
     render: function() {
         game.debug.text(result, 10, 20);
