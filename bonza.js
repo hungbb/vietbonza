@@ -51,11 +51,37 @@ game_state.main.prototype = {
             }
         window.graphics = graphics;
 
-        this.sprites.push(this.addTextTile(100,100,"H"));
-        this.sprites.push(this.addTextTile(200,200,"X"));
+        //this.sprites.push(this.addTextTile(100,100,"H"));
+        //this.sprites.push(this.addTextTile(200,200,"X"));
+        var obj=[];
+        for(var i in test1){
+            var j={
+                "top":null,"left":null,"right":null,"bottom":null,
+                "value":""
+            };
+            j.value= test1[i].value;
+            //console.log(test1[i]);
+            obj.push(j);
+        }
 
+        for(var i in obj){
+            if(test1[i].top>=0) obj[i].top=obj[test1[i].top];
+            if(test1[i].left>=0) obj[i].left=obj[test1[i].left];
+            if(test1[i].right>=0) obj[i].right=obj[test1[i].right];
+            if(test1[i].bottom>=0) obj[i].bottom=obj[test1[i].bottom];
+        }
+        console.log(obj);
 
+        var i=obj[1];
 
+    },
+    renderTile:function(i){
+        while(i!=null){
+            if(i.top!=null) this.renderTile(i.top);
+            if(i.top!=null) this.renderTile(i.top);
+            if(i.top!=null) this.renderTile(i.top);
+            if(i.top!=null) this.renderTile(i.top);
+        }
     },
     onDragStart: function(sprite, pointer) {
         //result = "Dragging " + sprite.key;
