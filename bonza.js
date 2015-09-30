@@ -13,6 +13,22 @@ game_state.main.prototype = {
         game.load.image("atari", "assets/pile.jpg");
 
     },
+    sprites:[],
+    addTextTile:function(x,y,text){
+        var temps = game.add.sprite(x, y, 'atari');
+        //atari.scale.setTo(0.5, 0.5);
+        //  //  Enable input and allow for dragging
+        temps.inputEnabled = true;
+        temps.input.enableDrag();
+        temps.events.onDragStart.add(this.onDragStart, this);
+        temps.events.onDragStop.add(this.onDragStop, this);
+        var t = game.add.text(14, 9, text, {
+            font: "24px Comic Sans MS",
+            fill: "#ffffff"
+        });
+        temps.addChild(t);
+        return temps
+    },
     create: function() {
         // Fuction called after 'preload' to setup the game
 
@@ -35,32 +51,9 @@ game_state.main.prototype = {
             }
         window.graphics = graphics;
 
-        var atari = game.add.sprite(100, 100, 'atari');
-        //atari.scale.setTo(0.5, 0.5);
-        //  //  Enable input and allow for dragging
-        atari.inputEnabled = true;
-        atari.input.enableDrag();
-        atari.events.onDragStart.add(this.onDragStart, this);
-        atari.events.onDragStop.add(this.onDragStop, this);
-        var text = game.add.text(14, 9, "A", {
-            font: "24px Comic Sans MS",
-            fill: "#ffffff"
-        });
-        atari.addChild(text);
+        this.sprites.push(this.addTextTile(100,100,"H"));
+        this.sprites.push(this.addTextTile(200,200,"X"));
 
-
-        var atari1 = game.add.sprite(200, 200, 'atari');
-        //atari.scale.setTo(0.5, 0.5);
-        //  //  Enable input and allow for dragging
-        atari1.inputEnabled = true;
-        atari1.input.enableDrag();
-        atari1.events.onDragStart.add(this.onDragStart, this);
-        atari1.events.onDragStop.add(this.onDragStop, this);
-        var text = game.add.text(14, 9, "X", {
-            font: "24px Comic Sans MS",
-            fill: "#ffffff"
-        });
-        atari1.addChild(text);
 
 
     },
