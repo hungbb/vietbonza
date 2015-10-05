@@ -49,7 +49,7 @@ game_state.main.prototype = {
         atari.addChild(text);
 
 
-        var atari1 = game.add.sprite(200, 200, 'atari');
+        var atari1 = game.add.sprite(0, 50, 'atari');
         //atari.scale.setTo(0.5, 0.5);
         //  //  Enable input and allow for dragging
         atari1.inputEnabled = true;
@@ -65,10 +65,10 @@ game_state.main.prototype = {
 
     },
     onDragStart: function(sprite, pointer) {
-        //result = "Dragging " + sprite.key;
+        result = "Dragging " + sprite.key;
     },
     onDragStop: function(sprite, pointer) {
-        //result = sprite.key + " dropped at x:" + sprite.x + " y: " + sprite.y;
+        result = sprite.key + " dropped at x:" + sprite.x + " y: " + sprite.y;
         sprite.x = Math.min(Math.max(sprite.x, 0), game_width - tile_width);
         sprite.y = Math.min(Math.max(sprite.y, 0), game_height - tile_width);
 
