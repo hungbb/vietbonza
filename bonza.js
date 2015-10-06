@@ -11,6 +11,7 @@ game_state.main = function() {};
 game_state.main.prototype = {
     preload: function() {
         game.load.image("atari", "assets/pile.jpg");
+        
 
     },
     sprites:[],
