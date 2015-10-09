@@ -73,16 +73,18 @@ game_state.main.prototype = {
         }
         console.log(obj);
 
-        var i=obj[1];
+        var i=obj[0];        
+        this.renderTile(i,100,100);
 
     },
-    renderTile:function(i){
-        while(i!=null){
-            if(i.top!=null) this.renderTile(i.top);
-            if(i.top!=null) this.renderTile(i.top);
-            if(i.top!=null) this.renderTile(i.top);
-            if(i.top!=null) this.renderTile(i.top);
-        }
+    renderTile:function(i,x,y){
+        this.sprites.push(this.addTextTile(x,y,i.value));
+        
+            if(i.top!=null) this.renderTile(i.top,x,y-50);
+            if(i.left!=null) this.renderTile(i.left,x-50,y);
+            if(i.right!=null) this.renderTile(i.right,x+50,y);
+            if(i.bottom!=null) this.renderTile(i.bottom,x,y+50);
+        
     },
     onDragStart: function(sprite, pointer) {
         //result = "Dragging " + sprite.key;
