@@ -23,6 +23,8 @@ game_state.main.prototype = {
         temps.inputEnabled = true;
         temps.input.enableDrag();
         temps.events.onDragStart.add(this.onDragStart, this);
+        temps.events.onDragUpdate.add(this.onDragUpdate, this);     
+        temps.events.onInputDown.add(this.onTap, this); 
         temps.events.onDragStop.add(this.onDragStop, this);
         var t = game.add.text(14, 9, text, {
             font: "24px Comic Sans MS",
@@ -90,6 +92,8 @@ game_state.main.prototype = {
         i.parent=p;
         var spr=this.addTextTile(x, y, i.value);
         i.sprite=spr;
+        i.sprite.cx=0;
+        i.sprite.cy=0;
         spr.pointobj=i;
         if (i.top != null)
             this.renderTile(p,i.top, x , y-50);
@@ -98,26 +102,55 @@ game_state.main.prototype = {
         if (i.right != null) this.renderTile(p,i.right, x+50, y);
 
     },
-    moveTile:function(i,dis_x,dis_y){
-
-            i.sprite.x += dis_x;
-            i.sprite.y += dis_y;
-
-        if (i.top != null)
-            this.moveTile(i.top,dis_x,dis_y);
-        if (i.bottom != null) this.moveTile(i.bottom,dis_x,dis_y);
-        if (i.left != null) this.moveTile(i.left,dis_x,dis_y);
-        if (i.right != null) this.moveTile(i.right,dis_x,dis_y);
+    moveTile:function(s,i,x,y){
+        // if(i.sprite!=s){
+        //      i.sprite.x = x;
+        //      i.sprite.y = y;
+        // }
+        //  if (i.top != null)   this.moveTile(s,i.top,x , y-50);
+        //  if (i.bottom != null) this.moveTile(s,i.bottom,x, y+50);
+        // if (i.left != null) this.moveTile(s,i.left, x-50, y);
+        //  if (i.right != null) this.moveTile(s,i.right, x+50, y);
+    
+         if(i.sprite!=s){
+             i.sprite.x += x;
+             i.sprite.y += y;
+         }
+      
+        if (i.top != null)   this.moveTile(s,i.top,x , y);
+        if (i.bottom != null) this.moveTile(s,i.bottom,x, y);
+        if (i.left != null) this.moveTile(s,i.left, x, y);
+        if (i.right != null) this.moveTile(s,i.right, x, y);
 
     },
     onDragStart: function (sprite, pointer) {
-        //result = "Dragging " + sprite.key;
+        //sprite.cx=sprite.x;
+        //sprite.cy=sprite.y;
+    },
+    onTap: function (sprite, pointer) {
+        result="tap "+ sprite.x + " " +sprite.y;  
+        sprite.cx=sprite.x;
+        sprite.cy=sprite.y;
+    },
+    onDragUpdate: function(sprite, pointer, dragX, dragY, snapPoint) {
+        //result="drag "+ sprite.x + " " +parseInt(sprite.x-sprite.cx);      
+        //if(sprite.cx>=0 ) sprite.x=sprite.cx;         
+        //if(sprite.cx>=0 && sprite.cy>=0)
+        //this.moveTile(sprite,sprite.pointobj.parent,parseInt(sprite.x-sprite.cx),parseInt(sprite.y-sprite.cy));
+        //sprite.pointobj.parent.sprite.x+=parseInt(sprite.x-sprite.cx);
+        //sprite.pointobj.parent.sprite.y+=parseInt(sprite.y-sprite.cy);
+        
+        //sprite.y=parseInt(sprite.cy);
+        //sprite.x=parseInt(sprite.cx);
+
+        this.moveTile(sprite,sprite.pointobj.parent,parseInt(sprite.x-sprite.cx),parseInt(sprite.y-sprite.cy));
         sprite.cx=sprite.x;
         sprite.cy=sprite.y;
     },
     onDragStop: function (sprite, pointer) {
-        //result = sprite.key + " dropped at x:" + sprite.x + " y: " + sprite.y;
-
+        //result = sprite.key + " dropped at x:" + sprite.x + " y: " + sprite.y; 
+        sprite.cx=sprite.x;
+        sprite.cy=sprite.y;       
         sprite.x = Math.min(Math.max(sprite.x, 0), game_width - tile_width);
         sprite.y = Math.min(Math.max(sprite.y, 0), game_height - tile_width);
 
@@ -133,8 +166,10 @@ game_state.main.prototype = {
             sprite.y = n;
         else
             sprite.y = n + tile_width;
+        console.log("Drop at " + sprite.x+ " " +sprite.y);
+        //this.moveTile(sprite,sprite.pointobj.parent,sprite.x,sprite.y);
         //console.log(sprite.pointobj);
-        //this.moveTile(sprite.pointobj.parent,sprite.x-sprite.cx,sprite.y-sprite.cy);
+        this.moveTile(sprite,sprite.pointobj.parent,parseInt(sprite.x-sprite.cx),parseInt(sprite.y-sprite.cy));
     },
     render: function () {
         game.debug.text(result, 10, 20);
