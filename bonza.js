@@ -128,7 +128,6 @@ game_state.main.prototype = {
         //sprite.cy=sprite.y;
     },
     onTap: function (sprite, pointer) {
-        result="tap "+ sprite.x + " " +sprite.y;  
         sprite.cx=sprite.x;
         sprite.cy=sprite.y;
     },

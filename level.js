@@ -32,7 +32,7 @@ var test1 = [
     }, {
         "top": -1, "left": -1, "bottom": -1, "right": 2, "value": "E","idx":1
     },{
-        "top": -1, "left": -1, "bottom": -1, "right": 3, "value": "L","idx":2
+        "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "L","idx":2
     }, {
         "top": -1, "left": -1, "bottom": -1, "right": 4, "value": "L","idx":3
     },{
