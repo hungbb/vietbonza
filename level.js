@@ -46,5 +46,6 @@ var test1 = [
     },
 ]
 var answer=[
-    [0,1,2,3,4],[2,5,6,7]
+    {"isSolved":false,"value":[0,1,2,3,4]},
+       {"isSolved":false,"value": [2,5,6,7]}
 ]
