@@ -1,6 +1,7 @@
 // Initialize Phaser, and creates a 400x490px game
-var game_width = 400;
-var game_height = 600;
+
+var game_height = 600;//window.innerHeight;
+var game_width = 400;//window.innerWidth;
 var tile_width = 50;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
@@ -40,8 +41,8 @@ game_state.main.prototype = {
     },
     listobj: [],
     allObj: [],
-    numOfSolved:0,
-    quizanswer:[],
+    numOfSolved: 0,
+    quizanswer: [],
     addTextTile: function(x, y, text) {
         var temps = game.add.sprite(x, y, 'atari');
         //atari.scale.setTo(0.5, 0.5);
@@ -78,36 +79,36 @@ game_state.main.prototype = {
         }
         window.graphics = graphics;
         //var obj = [];
-        this.allObj=[];
-        this.listobj=[];
-        this.quizanswer=[];
-        this.numOfSolved=0;
-        for (var i in test1) {
+        this.allObj = [];
+        this.listobj = [];
+        this.quizanswer = [];
+        this.numOfSolved = 0;
+        for (var i in level1.obj) {
             this.allObj.push({
                 "top": null,
                 "left": null,
                 "right": null,
                 "bottom": null,
-                "idx": test1[i].idx,
-                "value": test1[i].value,
+                "idx": level1.obj[i].idx,
+                "value": level1.obj[i].value,
                 isVisit: false,
                 sprite: null,
                 parent: null,
-                "initX": test1[i].initX,
-                "initY": test1[i].initY,
+                "initX": level1.obj[i].initX,
+                "initY": level1.obj[i].initY,
             });
         }
-        for(var i in answer){
+        for (var i in level1.answer) {
             this.quizanswer.push({
-                "isSolved":false,
-                "value":answer[i].value
+                "isSolved": false,
+                "value": level1.answer[i].value
             });
         }
         for (var i in this.allObj) {
-            if (test1[i].top >= 0) this.allObj[i].top = this.allObj[test1[i].top];
-            if (test1[i].left >= 0) this.allObj[i].left = this.allObj[test1[i].left];
-            if (test1[i].right >= 0) this.allObj[i].right = this.allObj[test1[i].right];
-            if (test1[i].bottom >= 0) this.allObj[i].bottom = this.allObj[test1[i].bottom];
+            if (level1.obj[i].top >= 0) this.allObj[i].top = this.allObj[level1.obj[i].top];
+            if (level1.obj[i].left >= 0) this.allObj[i].left = this.allObj[level1.obj[i].left];
+            if (level1.obj[i].right >= 0) this.allObj[i].right = this.allObj[level1.obj[i].right];
+            if (level1.obj[i].bottom >= 0) this.allObj[i].bottom = this.allObj[level1.obj[i].bottom];
         }
         for (var i in this.allObj) {
             if (!this.allObj[i].isVisit) {
@@ -267,24 +268,26 @@ game_state.main.prototype = {
         }
 
 
-        for (var i in  this.quizanswer) {
-            if (! this.quizanswer[i].isSolved) {
-                var _1stitem = this.allObj[ this.quizanswer[i].value[0]];
-                if (this.checkAnswerRight(_1stitem,  this.quizanswer[i].value)) {
-                     this.quizanswer[i].isSolved = true;
-                    this.combineAnswerRight(_1stitem,  this.quizanswer[i].value);
+        for (var i in this.quizanswer) {
+            if (!this.quizanswer[i].isSolved) {
+                var _1stitem = this.allObj[this.quizanswer[i].value[0]];
+                if (this.checkAnswerRight(_1stitem, this.quizanswer[i].value)) {
+                    this.quizanswer[i].isSolved = true;
+                    this.combineAnswerRight(_1stitem, this.quizanswer[i].value);
                 }
-                if (this.checkAnswerDown(_1stitem,  this.quizanswer[i].value)) {
-                     this.quizanswer[i].isSolved = true;
-                    this.combineAnswerDown(_1stitem,  this.quizanswer[i].value);
+                if (this.checkAnswerDown(_1stitem, this.quizanswer[i].value)) {
+                    this.quizanswer[i].isSolved = true;
+                    this.combineAnswerDown(_1stitem, this.quizanswer[i].value);
                 }
-                if ( this.quizanswer[i].isSolved)
+                if (this.quizanswer[i].isSolved)
                     this.numOfSolved++;
             }
 
         }
-        if(this.numOfSolved>= this.quizanswer.length)
-            game.state.start('mainmenu');        
+        if (this.numOfSolved >= this.quizanswer.length)
+            setTimeout(function() {
+                game.state.start('mainmenu');
+            }, 1000);
 
     },
     render: function() {
