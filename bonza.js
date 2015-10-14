@@ -209,7 +209,7 @@ game_state.main.prototype = {
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.allObj[answer[i]];
             k.sprite.tint = newcolor;
-            if (this.allObj[answer[i - 1]].right == null)
+            if (this.allObj[answer[i - 1]].right == null && k.left != this.allObj[answer[i - 1]])
                 this.allObj[answer[i - 1]].right = k;
             //k.parent=start;
             //if(k.parent!=start)
@@ -223,7 +223,7 @@ game_state.main.prototype = {
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.allObj[answer[i]];
             k.sprite.tint = newcolor;
-            if (this.allObj[answer[i - 1]].bottom == null)
+            if (this.allObj[answer[i - 1]].bottom == null && k.top != this.allObj[answer[i - 1]])
                 this.allObj[answer[i - 1]].bottom = k;
         }
         this.assignParent(start.parent, start.parent, newcolor);
