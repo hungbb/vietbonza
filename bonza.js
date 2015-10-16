@@ -8,17 +8,17 @@ var game_state = {};
 game_state.score = -1;
 // Creates a new 'main' state that wil contain the game
 var result = 'Drag a sprite';
-game_state.mainmenu = function() {
+game_state.mainmenu = function () {
 
 };
 game_state.mainmenu.prototype = {
-    preload: function() {
+    preload: function () {
         this.game.stage.backgroundColor = "#71c5cf";
         game.load.image("atari", "assets/pile.jpg");
         game_state.score = -1;
 
     },
-    create: function() {
+    create: function () {
         var style = {
             font: "bold 40pt Arial",
             fill: "#ffffff",
@@ -29,21 +29,23 @@ game_state.mainmenu.prototype = {
         this.label_score = this.game.add.text(50, 150, "Bonza", style);
         this.button = this.game.add.button(150, 300, 'atari', this.click, this);
     },
-    click: function() {
+    click: function () {
         game.state.start('main');
     },
-    update: function() {}
+    update: function () {
+    }
 };
-game_state.main = function() {};
+game_state.main = function () {
+};
 game_state.main.prototype = {
-    preload: function() {
+    preload: function () {
         game.load.image("atari", "assets/pile.jpg");
     },
     listobj: [],
     allObj: [],
     numOfSolved: 0,
     quizanswer: [],
-    addTextTile: function(x, y, text) {
+    addTextTile: function (x, y, text) {
         var temps = game.add.sprite(x, y, 'atari');
         //atari.scale.setTo(0.5, 0.5);
         //  Enable input and allow for dragging
@@ -60,23 +62,23 @@ game_state.main.prototype = {
         temps.addChild(t);
         return temps
     },
-    create: function() { // Fuction called after 'preload' to setup the game
+    create: function () { // Fuction called after 'preload' to setup the game
         var graphics = game.add.graphics(0, 0);
         var color = 0xD5EDF5;
         for (j = 0; j <= game_height; j++) //render carreaux board
             for (i = 0; i <= game_width; i++) {
-            if (i % tile_width == 0 && j % tile_width == 0) {
+                if (i % tile_width == 0 && j % tile_width == 0) {
 
-                if (((i / tile_width) + (j / tile_width)) % 2 == 1) {
-                    color = 0xD5EDF5;
-                } else {
-                    color = 0xB8E4F2;
+                    if (((i / tile_width) + (j / tile_width)) % 2 == 1) {
+                        color = 0xD5EDF5;
+                    } else {
+                        color = 0xB8E4F2;
+                    }
+                    graphics.beginFill(color);
+                    graphics.drawRect(i, j, tile_width, tile_width);
+                    graphics.endFill();
                 }
-                graphics.beginFill(color);
-                graphics.drawRect(i, j, tile_width, tile_width);
-                graphics.endFill();
             }
-        }
         window.graphics = graphics;
         //var obj = [];
         this.allObj = [];
@@ -118,7 +120,7 @@ game_state.main.prototype = {
 
         }
     },
-    renderTile: function(p, i, x, y) { //Render a tile. p: parent, i: item to render, x,y: position.
+    renderTile: function (p, i, x, y) { //Render a tile. p: parent, i: item to render, x,y: position.
         i.isVisit = true;
         i.parent = p;
         var spr = this.addTextTile(x, y, i.value);
@@ -131,7 +133,7 @@ game_state.main.prototype = {
         if (i.left != null) this.renderTile(p, i.left, x - 50, y);
         if (i.right != null) this.renderTile(p, i.right, x + 50, y);
     },
-    updateTilePosition: function(s, i, x, y) {
+    updateTilePosition: function (s, i, x, y) {
         if (i.sprite != s) {
             i.sprite.x += x;
             i.sprite.y += y;
@@ -141,7 +143,7 @@ game_state.main.prototype = {
         if (i.left != null) this.updateTilePosition(s, i.left, x, y);
         if (i.right != null) this.updateTilePosition(s, i.right, x, y);
     },
-    isCollapse: function(obj, x, y) {
+    isCollapse: function (obj, x, y) {
         for (var i in this.allObj) {
             if (this.allObj[i].parent != obj.parent) {
                 if (this.allObj[i].sprite.x == obj.sprite.x && this.allObj[i].sprite.y == obj.sprite.y)
@@ -150,7 +152,7 @@ game_state.main.prototype = {
         }
         return false;
     },
-    findItemByIndex: function(idx) {
+    findItemByIndex: function (idx) {
         for (var i in this.allObj) {
             if (this.allObj[i].idx == idx) {
                 return this.allObj[i];
@@ -158,14 +160,14 @@ game_state.main.prototype = {
         }
         return null;
     },
-    isExistIn: function(x, y) {
+    isExistIn: function (x, y) {
         for (var i in this.allObj) {
             if (this.allObj[i].sprite.x == x && this.allObj[i].sprite.y == y)
                 return this.allObj[i];
         }
         return null;
     },
-    isPieceCollapse: function(obj) {
+    isPieceCollapse: function (obj) {
         var result = this.isCollapse(obj, obj.sprite.x, obj.sprite.y)
         result = result || (obj.top != null ? this.isPieceCollapse(obj.top) : false);
         result = result || (obj.bottom != null ? this.isPieceCollapse(obj.bottom) : false);
@@ -173,65 +175,69 @@ game_state.main.prototype = {
         result = result || (obj.right != null ? this.isPieceCollapse(obj.right) : false);
         return result;
     },
-    checkAnswerRight: function(start, answer) {
+    checkAnswerRight: function (start, answer) {
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.isExistIn(start.sprite.x + i * 50, start.sprite.y);
             if (k == null)
                 return false;
-            else
-            if (k.idx != answer[i])
+            else if (k.idx != answer[i])
                 return false;
         }
         return true;
     },
-    checkAnswerDown: function(start, answer) {
+    checkAnswerDown: function (start, answer) {
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.isExistIn(start.sprite.x, start.sprite.y + i * 50);
             if (k == null)
                 return false;
-            else
-            if (k.idx != answer[i])
+            else if (k.idx != answer[i])
                 return false;
         }
         return true;
     },
-    changeTreeParent:function(i,dest,prev){
-        if(i!=dest){
-            if(i.top!=null) {
-                this.changeTreeParent(i.top,dest,i);
-                if(i.top==dest){
-                    dest.bottom=i;
-                    i.top=null;
-                    dest=i;
-                }
+    reverseRoute: function (i, dest, isReach) {
+        if (i != dest) {
+            if (i.top != null && (!isReach)) {
+                this.reverseRoute(i.top, dest, isReach);
+                //if (isReach) {
+                    i.top.bottom = i;
+                    i.top = null;
+               // }
+
             }
-            if(i.bottom!=null){ 
-                this.changeTreeParent(i.bottom,dest,i);
-                if(i.bottom==dest){
-                    dest.top=i;
-                    i.bottom=null;
-                    dest=i;
-                }
+            if (i.bottom != null  && (!isReach)) {
+                this.reverseRoute(i.bottom, dest, isReach);
+                //if (isReach) {
+                    i.bottom.top = i;
+                    i.bottom = null;
+                    //dest=i;
+                //}
             }
-            if(i.right!=null) {
-                this.changeTreeParent(i.right,dest,i);
-                if(i.right==dest){
-                    dest.left=i;
-                    i.right=null;
-                    dest=i;
-                }
+            if (i.right != null && (!isReach)) {
+                this.reverseRoute(i.right, dest, isReach);
+                //if (isReach) {
+                    i.right.left = i;
+                    i.right = null;
+
+                //}
             }
-            if(i.left!=null) {
-                this.changeTreeParent(i.left,dest,i);
-                if(i.left==dest){
-                    dest.right=i;
-                    i.left=null;
-                    dest=i;
-                }
+            if (i.left != null && (!isReach)) {
+                this.reverseRoute(i.left, dest, isReach);
+                //if (isReach) {
+                    i.left.right = i;
+                    i.left = null;
+                    //dest=i;
+                //}
             }
         }
+        else
+            isReach = true;
     },
-    assignParent: function(parent, obj, tint) {
+    changeTreeParent: function (parent, dest) {
+        this.reverseRoute(parent, dest, false);
+        this.assignParent(dest, dest, null);
+    },
+    assignParent: function (parent, obj, tint) {
         obj.parent = parent;
         //obj.sprite.tint=tint;
         if (obj.top != null) this.assignParent(parent, obj.top);
@@ -239,22 +245,27 @@ game_state.main.prototype = {
         if (obj.left != null) this.assignParent(parent, obj.left);
         if (obj.right != null) this.assignParent(parent, obj.right);
     },
-    combineAnswerRight: function(start, answer) {
+    combineAnswerRight: function (start, answer) {
         var newcolor = 0x71c5cf; //Math.random()*0xff0fff;
         start.sprite.tint = newcolor;
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.allObj[answer[i]];
+
             k.sprite.tint = newcolor;
-            if (this.allObj[answer[i - 1]].right == null && k.left != this.allObj[answer[i - 1]])
+            if (this.allObj[answer[i - 1]].right == null && k.left != this.allObj[answer[i - 1]]) {
                 this.allObj[answer[i - 1]].right = k;
+                if (k != k.parent)
+                    this.changeTreeParent(k.parent, k, null);
+            }
             //k.parent=start;
             //if(k.parent!=start)
             ///assignParent(start,k);
         }
 
         this.assignParent(start.parent, start.parent, newcolor);
+        console.log(this.allObj[8]);
     },
-    combineAnswerDown: function(start, answer) {
+    combineAnswerDown: function (start, answer) {
         var newcolor = 0x71c5cf; //Math.random()*0xff0fff;
         start.sprite.tint = newcolor;
         for (i = 1; i <= answer.length - 1; i++) {
@@ -265,8 +276,9 @@ game_state.main.prototype = {
         }
         this.assignParent(start.parent, start.parent, newcolor);
     },
-    onDragStart: function(sprite, pointer) {},
-    onTap: function(sprite, pointer) {
+    onDragStart: function (sprite, pointer) {
+    },
+    onTap: function (sprite, pointer) {
 
         sprite.beforeMoveX = sprite.x;
         sprite.beforeMoveY = sprite.y;
@@ -274,14 +286,14 @@ game_state.main.prototype = {
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
         //console.log(this.allObj);
-        this.changeTreeParent(this.allObj[5],this.allObj[7],null);
+        //console.log(this.allObj[7]);
     },
-    onDragUpdate: function(sprite, pointer, dragX, dragY, snapPoint) {
+    onDragUpdate: function (sprite, pointer, dragX, dragY, snapPoint) {
         this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
     },
-    onDragStop: function(sprite, pointer) { //Reposition to right place.
+    onDragStop: function (sprite, pointer) { //Reposition to right place.
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
         sprite.x = Math.min(Math.max(sprite.x, 0), game_width - tile_width);
@@ -324,12 +336,12 @@ game_state.main.prototype = {
 
         }
         if (this.numOfSolved >= this.quizanswer.length)
-            setTimeout(function() {
+            setTimeout(function () {
                 game.state.start('mainmenu');
             }, 1000);
 
     },
-    render: function() {
+    render: function () {
         game.debug.text(result, 10, 20);
     }
 };

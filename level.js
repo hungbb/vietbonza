@@ -64,7 +64,7 @@ var level1={
         ,{"isSolved":false,"value": [4,2,5,6],"text":"LION"}
         ,{"isSolved":false,"value": [8,9,6,7],"text":"LINA"}
         ,{"isSolved":false,"value": [7,10,11],"text":"AXE"}
-        ,{"isSolved":false,"value": [8,12,13,14],"text":"AXE"}
+        ,{"isSolved":false,"value": [8,12,13,14],"text":"LICH"}
     ]
 
 }
