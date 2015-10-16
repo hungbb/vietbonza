@@ -195,6 +195,42 @@ game_state.main.prototype = {
         }
         return true;
     },
+    changeTreeParent:function(i,dest,prev){
+        if(i!=dest){
+            if(i.top!=null) {
+                this.changeTreeParent(i.top,dest,i);
+                if(i.top==dest){
+                    dest.bottom=i;
+                    i.top=null;
+                    dest=i;
+                }
+            }
+            if(i.bottom!=null){ 
+                this.changeTreeParent(i.bottom,dest,i);
+                if(i.bottom==dest){
+                    dest.top=i;
+                    i.bottom=null;
+                    dest=i;
+                }
+            }
+            if(i.right!=null) {
+                this.changeTreeParent(i.right,dest,i);
+                if(i.right==dest){
+                    dest.left=i;
+                    i.right=null;
+                    dest=i;
+                }
+            }
+            if(i.left!=null) {
+                this.changeTreeParent(i.left,dest,i);
+                if(i.left==dest){
+                    dest.right=i;
+                    i.left=null;
+                    dest=i;
+                }
+            }
+        }
+    },
     assignParent: function(parent, obj, tint) {
         obj.parent = parent;
         //obj.sprite.tint=tint;
@@ -215,6 +251,7 @@ game_state.main.prototype = {
             //if(k.parent!=start)
             ///assignParent(start,k);
         }
+
         this.assignParent(start.parent, start.parent, newcolor);
     },
     combineAnswerDown: function(start, answer) {
@@ -236,6 +273,8 @@ game_state.main.prototype = {
         result = "tap " + sprite.x + " " + sprite.y;
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
+        //console.log(this.allObj);
+        this.changeTreeParent(this.allObj[5],this.allObj[7],null);
     },
     onDragUpdate: function(sprite, pointer, dragX, dragY, snapPoint) {
         this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
