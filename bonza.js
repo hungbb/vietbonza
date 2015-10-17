@@ -195,46 +195,48 @@ game_state.main.prototype = {
         }
         return true;
     },
-    reverseRoute: function (i, dest, isReach) {
+    reverseRoute: function (i, dest) {
         if (i != dest) {
-            if (i.top != null && (!isReach)) {
-                this.reverseRoute(i.top, dest, isReach);
-                //if (isReach) {
+            if (i.top != null && (!this.isReach)) {
+                this.reverseRoute(i.top, dest);
+                if (this.isReach) {
                     i.top.bottom = i;
                     i.top = null;
-               // }
+                }
 
             }
-            if (i.bottom != null  && (!isReach)) {
-                this.reverseRoute(i.bottom, dest, isReach);
-                //if (isReach) {
+            if (i.bottom != null  && (!this.isReach)) {
+                this.reverseRoute(i.bottom, dest);
+                if (this.isReach) {
                     i.bottom.top = i;
                     i.bottom = null;
                     //dest=i;
-                //}
+                }
             }
-            if (i.right != null && (!isReach)) {
-                this.reverseRoute(i.right, dest, isReach);
-                //if (isReach) {
+            if (i.right != null && (!this.isReach)) {
+                this.reverseRoute(i.right, dest);
+                if (this.isReach) {
                     i.right.left = i;
                     i.right = null;
 
-                //}
+                }
             }
-            if (i.left != null && (!isReach)) {
-                this.reverseRoute(i.left, dest, isReach);
-                //if (isReach) {
+            if (i.left != null && (!this.isReach)) {
+                this.reverseRoute(i.left, dest);
+                if (this.isReach) {
                     i.left.right = i;
                     i.left = null;
                     //dest=i;
-                //}
+                }
             }
         }
         else
-            isReach = true;
+            this.isReach = true;
     },
+    isReach:false,
     changeTreeParent: function (parent, dest) {
-        this.reverseRoute(parent, dest, false);
+        this.isReach=false;
+        this.reverseRoute(parent, dest, this.isReach);
         this.assignParent(dest, dest, null);
     },
     assignParent: function (parent, obj, tint) {
