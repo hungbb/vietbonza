@@ -7,7 +7,7 @@ var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
 game_state.score = -1;
 // Creates a new 'main' state that wil contain the game
-var result = 'Drag a sprite';
+var result = 'Clue: Dota 2 Heroes';
 game_state.mainmenu = function () {
 
 };
@@ -273,8 +273,12 @@ game_state.main.prototype = {
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.allObj[answer[i]];
             k.sprite.tint = newcolor;
-            if (this.allObj[answer[i - 1]].bottom == null && k.top != this.allObj[answer[i - 1]])
+            if (this.allObj[answer[i - 1]].bottom == null && k.top != this.allObj[answer[i - 1]]){
                 this.allObj[answer[i - 1]].bottom = k;
+                if (k != k.parent)
+                    this.changeTreeParent(k.parent, k, null);
+            }
+
         }
         this.assignParent(start.parent, start.parent, newcolor);
     },
@@ -284,7 +288,7 @@ game_state.main.prototype = {
 
         sprite.beforeMoveX = sprite.x;
         sprite.beforeMoveY = sprite.y;
-        result = "tap " + sprite.x + " " + sprite.y;
+        //result = "tap " + sprite.x + " " + sprite.y;
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
         //console.log(this.allObj);
