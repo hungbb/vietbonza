@@ -1,7 +1,7 @@
 // Initialize Phaser, and creates a 400x490px game
 
-var game_height = 600;//window.innerHeight;
-var game_width = 400;//window.innerWidth;
+var game_height = window.innerHeight;
+var game_width = window.innerWidth;
 var tile_width = 50;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
@@ -47,7 +47,7 @@ game_state.main.prototype = {
     quizanswer: [],
     addTextTile: function (x, y, text) {
         var temps = game.add.sprite(x, y, 'atari');
-        //atari.scale.setTo(0.5, 0.5);
+        //temps.scale.setTo(0.5, 0.5);
         //  Enable input and allow for dragging
         temps.inputEnabled = true;
         temps.input.enableDrag();
@@ -65,14 +65,16 @@ game_state.main.prototype = {
     create: function () { // Fuction called after 'preload' to setup the game
         var graphics = game.add.graphics(0, 0);
         var color = 0xD5EDF5;
-        for (j = 0; j <= game_height; j++) //render carreaux board
-            for (i = 0; i <= game_width; i++) {
+        for (j = 0; j <= parseInt(game_height/tile_width-1) * tile_width; j++) //render carreaux board
+            for (i = 0; i <= parseInt(game_width/tile_width-1) * tile_width; i++) {
+        //for (j = 0; j <= game_height; j++) //render carreaux board
+          //  for (i = 0; i <= game_width; i++) {
                 if (i % tile_width == 0 && j % tile_width == 0) {
 
                     if (((i / tile_width) + (j / tile_width)) % 2 == 1) {
-                        color = 0xD5EDF5;
+                        color = 0xD5EDF0;
                     } else {
-                        color = 0xB8E4F2;
+                        color = 0xB8E4F0;
                     }
                     graphics.beginFill(color);
                     graphics.drawRect(i, j, tile_width, tile_width);
@@ -128,10 +130,10 @@ game_state.main.prototype = {
         i.sprite.cx = 0;
         i.sprite.cy = 0;
         spr.pointobj = i;
-        if (i.top != null) this.renderTile(p, i.top, x, y - 50);
-        if (i.bottom != null) this.renderTile(p, i.bottom, x, y + 50);
-        if (i.left != null) this.renderTile(p, i.left, x - 50, y);
-        if (i.right != null) this.renderTile(p, i.right, x + 50, y);
+        if (i.top != null) this.renderTile(p, i.top, x, y - tile_width);
+        if (i.bottom != null) this.renderTile(p, i.bottom, x, y + tile_width);
+        if (i.left != null) this.renderTile(p, i.left, x - tile_width, y);
+        if (i.right != null) this.renderTile(p, i.right, x + tile_width, y);
     },
     updateTilePosition: function (s, i, x, y) {
         if (i.sprite != s) {
@@ -177,7 +179,7 @@ game_state.main.prototype = {
     },
     checkAnswerRight: function (start, answer) {
         for (i = 1; i <= answer.length - 1; i++) {
-            var k = this.isExistIn(start.sprite.x + i * 50, start.sprite.y);
+            var k = this.isExistIn(start.sprite.x + i * tile_width, start.sprite.y);
             if (k == null)
                 return false;
             else if (k.idx != answer[i])
@@ -187,7 +189,7 @@ game_state.main.prototype = {
     },
     checkAnswerDown: function (start, answer) {
         for (i = 1; i <= answer.length - 1; i++) {
-            var k = this.isExistIn(start.sprite.x, start.sprite.y + i * 50);
+            var k = this.isExistIn(start.sprite.x, start.sprite.y + i * tile_width);
             if (k == null)
                 return false;
             else if (k.idx != answer[i])
@@ -205,7 +207,7 @@ game_state.main.prototype = {
                 }
 
             }
-            if (i.bottom != null  && (!this.isReach)) {
+            if (i.bottom != null && (!this.isReach)) {
                 this.reverseRoute(i.bottom, dest);
                 if (this.isReach) {
                     i.bottom.top = i;
@@ -233,9 +235,9 @@ game_state.main.prototype = {
         else
             this.isReach = true;
     },
-    isReach:false,
+    isReach: false,
     changeTreeParent: function (parent, dest) {
-        this.isReach=false;
+        this.isReach = false;
         this.reverseRoute(parent, dest, this.isReach);
         this.assignParent(dest, dest, null);
     },
@@ -273,7 +275,7 @@ game_state.main.prototype = {
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.allObj[answer[i]];
             k.sprite.tint = newcolor;
-            if (this.allObj[answer[i - 1]].bottom == null && k.top != this.allObj[answer[i - 1]]){
+            if (this.allObj[answer[i - 1]].bottom == null && k.top != this.allObj[answer[i - 1]]) {
                 this.allObj[answer[i - 1]].bottom = k;
                 if (k != k.parent)
                     this.changeTreeParent(k.parent, k, null);
