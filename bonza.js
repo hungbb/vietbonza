@@ -9,8 +9,10 @@ game_state.score = -1;
 // Creates a new 'main' state that wil contain the game
 var result = 'Clue: Dota 2 Heroes';
 game_state.mainmenu = function () {
+    
+}
 
-};
+;
 game_state.mainmenu.prototype = {
     preload: function () {
         this.game.stage.backgroundColor = "#71c5cf";
