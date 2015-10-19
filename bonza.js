@@ -1,13 +1,13 @@
 // Initialize Phaser, and creates a 400x490px game
-
-var game_height = window.innerHeight;
-var game_width = window.innerWidth;
-var tile_width = 50;
+var boardSizeWidth = 8, boardSizeheight= 13;
+var game_height = window.innerHeight;//parseInt(window.innerHeight/50)*50;
+var game_width =  window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
+var tile_width = 30;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
 game_state.score = -1;
 // Creates a new 'main' state that wil contain the game
-var result = 'Clue: Dota 2 Heroes';
+var result = 'Clue: Dota 2 Heroes - Width:' + game_width+ ' , Height:'+ game_height +' , Tile: ' + tile_width;
 game_state.mainmenu = function () {
 
 };
@@ -47,7 +47,7 @@ game_state.main.prototype = {
     quizanswer: [],
     addTextTile: function (x, y, text) {
         var temps = game.add.sprite(x, y, 'atari');
-        //temps.scale.setTo(0.5, 0.5);
+        temps.scale.setTo(tile_width/50, tile_width/50);
         //  Enable input and allow for dragging
         temps.inputEnabled = true;
         temps.input.enableDrag();
@@ -98,8 +98,8 @@ game_state.main.prototype = {
                 isVisit: false,
                 sprite: null,
                 parent: null,
-                "initX": level1.obj[i].initX,
-                "initY": level1.obj[i].initY,
+                "initX": level1.obj[i].initX*tile_width/50,
+                "initY": level1.obj[i].initY*tile_width/50
             });
         }
         for (var i in level1.answer) {
