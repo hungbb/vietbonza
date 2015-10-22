@@ -1,13 +1,13 @@
 // Initialize Phaser, and creates a 400x490px game
 var boardSizeWidth = 8, boardSizeheight= 13;
-var game_height = 600;//window.innerHeight;//parseInt(window.innerHeight/50)*50;
-var game_width =  400;//window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
-var tile_width = 50;//game_width/boardSizeWidth;
+var game_height = 640;//window.innerHeight;//parseInt(window.innerHeight/50)*50;
+var game_width =  360;//window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
+var tile_width = 40;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
 game_state.score = -1;
 // Creates a new 'main' state that wil contain the game
-var result = 'Clue: Dota 2 Heroes - Width:' + game_width+ ' , Height:'+ game_height +' , Tile: ' + tile_width;
+var result = 'Clue: Dota 2 Heroes'; //- Width:' + game_width+ ' , Height:'+ game_height +' , Tile: ' + tile_width;
 game_state.mainmenu = function () {
 
 }
@@ -16,12 +16,15 @@ game_state.mainmenu.prototype = {
     preload: function () {
         this.game.stage.backgroundColor = "#71c5cf";
         game.load.image("atari", "assets/pile.jpg");
+        game.load.image("playbtn", "assets/play.png");
+        game.load.image("infobtn", "assets/info.png");
+        game.load.image("block", "assets/pipe.png");
         game_state.score = -1;
 
     },
-    drawTextByTile:function(x,y,text){
+    drawTextByTile:function(x,y,size,text){
         var temps = game.add.sprite(x, y, 'atari');
-        temps.scale.setTo(tile_width/50, tile_width/50);
+        temps.scale.setTo(size/50, size/50);
         var t = game.add.text(14, 9, text, {
             font: "24px Comic Sans MS",
             fill: "#ffffff"
@@ -29,22 +32,22 @@ game_state.mainmenu.prototype = {
         temps.addChild(t);
         return temps
     },
-    renderBoard:function(){
+    renderBoard:function(size){
         var graphics = game.add.graphics(0, 0);
         var color = 0xD5EDF5;
-        for (j = 0; j <= parseInt(game_height/tile_width-1) * tile_width; j++) //render carreaux board
-            for (i = 0; i <= parseInt(game_width/tile_width-1) * tile_width; i++) {
+        for (j = 0; j <= parseInt(game_height/size) * size; j++) //render carreaux board
+            for (i = 0; i <= parseInt(game_width/size) * size; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
                 //  for (i = 0; i <= game_width; i++) {
-                if (i % tile_width == 0 && j % tile_width == 0) {
+                if (i % size == 0 && j % size == 0) {
 
-                    if (((i / tile_width) + (j / tile_width)) % 2 == 1) {
+                    if (((i / size) + (j / size)) % 2 == 1) {
                         color = 0xD5EDF0;
                     } else {
                         color = 0xB8E4F0;
                     }
                     graphics.beginFill(color);
-                    graphics.drawRect(i, j, tile_width, tile_width);
+                    graphics.drawRect(i, j, size, size);
                     graphics.endFill();
                 }
             }
@@ -58,9 +61,19 @@ game_state.mainmenu.prototype = {
             stroke: "#258acc",
             strokeThickness: 8
         };
-        this.renderBoard();
-        this.label_score = this.game.add.text(50, 150, "Bonza", style);
-        this.button = this.game.add.button(150, 300, 'atari', this.click, this);
+        var size=50;
+        this.renderBoard(50);
+        //this.label_score = this.game.add.text(50, 150, "Bonza", style);
+        var title1="PUZ";
+        var title2="ZAA";
+        for(var i in title1){
+            this.drawTextByTile(50+(size+1)*i,size*2,size,title1[i]);
+        }
+        for(var i in title2){
+            this.drawTextByTile(50+size*2+(size+1)*i,size*3+1,size,title2[i]);
+        }
+        this.button = this.game.add.button(50, 350, 'playbtn', this.click, this);
+        this.infobutton = this.game.add.button(200, 350, 'infobtn', this.click, this);
     },
     click: function () {
         game.state.start('main');
