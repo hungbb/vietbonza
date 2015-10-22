@@ -5,9 +5,9 @@ var game_width =  360;//window.innerWidth;//parseInt(window.innerWidth/50)*50;//
 var tile_width = 40;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
-game_state.score = -1;
+game_state.score = 0;
 // Creates a new 'main' state that wil contain the game
-var result = 'Clue: Dota 2 Heroes'; //- Width:' + game_width+ ' , Height:'+ game_height +' , Tile: ' + tile_width;
+var result = 'Clue:'; //- Width:' + game_width+ ' , Height:'+ game_height +' , Tile: ' + tile_width;
 game_state.mainmenu = function () {
 
 }
@@ -19,8 +19,7 @@ game_state.mainmenu.prototype = {
         game.load.image("playbtn", "assets/play.png");
         game.load.image("infobtn", "assets/info.png");
         game.load.image("block", "assets/pipe.png");
-        game_state.score = -1;
-
+        game_state.score = 0;
     },
     drawTextByTile:function(x,y,size,text){
         var temps = game.add.sprite(x, y, 'atari');
@@ -134,32 +133,35 @@ game_state.main.prototype = {
         this.listobj = [];
         this.quizanswer = [];
         this.numOfSolved = 0;
-        for (var i in level1.obj) {
+
+        var level=alllevel[game_state.score];
+        result='Clue: '+level.clue;
+        for (var i in level.obj) {
             this.allObj.push({
                 "top": null,
                 "left": null,
                 "right": null,
                 "bottom": null,
-                "idx": level1.obj[i].idx,
-                "value": level1.obj[i].value,
+                "idx": level.obj[i].idx,
+                "value": level.obj[i].value,
                 isVisit: false,
                 sprite: null,
                 parent: null,
-                "initX": level1.obj[i].initX*tile_width/50,
-                "initY": level1.obj[i].initY*tile_width/50
+                "initX": level.obj[i].initX*tile_width/50,
+                "initY": level.obj[i].initY*tile_width/50
             });
         }
-        for (var i in level1.answer) {
+        for (var i in level.answer) {
             this.quizanswer.push({
                 "isSolved": false,
-                "value": level1.answer[i].value
+                "value": level.answer[i].value
             });
         }
         for (var i in this.allObj) {
-            if (level1.obj[i].top >= 0) this.allObj[i].top = this.allObj[level1.obj[i].top];
-            if (level1.obj[i].left >= 0) this.allObj[i].left = this.allObj[level1.obj[i].left];
-            if (level1.obj[i].right >= 0) this.allObj[i].right = this.allObj[level1.obj[i].right];
-            if (level1.obj[i].bottom >= 0) this.allObj[i].bottom = this.allObj[level1.obj[i].bottom];
+            if (level.obj[i].top >= 0) this.allObj[i].top = this.allObj[level.obj[i].top];
+            if (level.obj[i].left >= 0) this.allObj[i].left = this.allObj[level.obj[i].left];
+            if (level.obj[i].right >= 0) this.allObj[i].right = this.allObj[level.obj[i].right];
+            if (level.obj[i].bottom >= 0) this.allObj[i].bottom = this.allObj[level.obj[i].bottom];
         }
         for (var i in this.allObj) {
             if (!this.allObj[i].isVisit) {
@@ -390,10 +392,18 @@ game_state.main.prototype = {
             }
 
         }
-        if (this.numOfSolved >= this.quizanswer.length)
+
+        if (this.numOfSolved >= this.quizanswer.length) {
+            result = "Success";
+            game_state.score++;
             setTimeout(function () {
-                game.state.start('mainmenu');
+                if (game_state.score >= alllevel.length){
+                    game.state.start('mainmenu');
+                }
+                else
+                    game.state.start('main');
             }, 1000);
+        }
 
     },
     render: function () {
