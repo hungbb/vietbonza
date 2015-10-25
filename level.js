@@ -1,4 +1,4 @@
-var level0={
+﻿var level0={
     obj:[
         {
             "top": -1, "left": -1, "bottom": -1, "right": 1, "value": "N","idx":0, "initX":50,"initY":50
@@ -338,21 +338,19 @@ var level4={
         }, 
         
         {
-            "top": -1, "left": -1, "bottom": 33, "right": -1, "value": "Y","idx":32, "initX":50,"initY":450
+            "top": -1, "left": -1, "bottom": 33, "right": -1, "value": "A","idx":32, "initX":50,"initY":450
         }, 
         {
-            "top": -1, "left": -1, "bottom": 34, "right": -1, "value": "A","idx":33
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "T","idx":33
         }, 
-        {
-            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "T","idx":34
-        }, 
+        
     ],
     answer:[
         {"isSolved":false,"value":[2,1,0,4,5,6],"text":"THEDUC"},
         {"isSolved":false,"value":[2,3,7,8],"text":"TOAN"},
         {"isSolved":false,"value":[16,15,9,8,10,11,12,13,14],"text":"TIENGVIET"},
         {"isSolved":false,"value":[16,17,18,23,24,25,26],"text":"THUCONG"},
-        {"isSolved":false,"value":[22,21,20,19,18,32,33,34],"text":"MITHUAT"},
+        {"isSolved":false,"value":[22,21,20,19,18,32,32,33],"text":"MITHUAT"},
         {"isSolved":false,"value":[28,27,25,29,30,31],"text":"AMNHAC"},
     ]
     ,clue:"Môn học ở trường"
