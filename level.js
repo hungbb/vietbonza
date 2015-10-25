@@ -350,7 +350,7 @@ var level4={
         {"isSolved":false,"value":[2,3,7,8],"text":"TOAN"},
         {"isSolved":false,"value":[16,15,9,8,10,11,12,13,14],"text":"TIENGVIET"},
         {"isSolved":false,"value":[16,17,18,23,24,25,26],"text":"THUCONG"},
-        {"isSolved":false,"value":[22,21,20,19,18,32,32,33],"text":"MITHUAT"},
+        {"isSolved":false,"value":[22,21,20,19,18,32,33],"text":"MITHUAT"},
         {"isSolved":false,"value":[28,27,25,29,30,31],"text":"AMNHAC"},
     ]
     ,clue:"Môn học ở trường"
