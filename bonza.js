@@ -1,8 +1,8 @@
 // Initialize Phaser, and creates a 400x490px game
 var boardSizeWidth = 8, boardSizeheight= 13;
-var game_height = 640;//window.innerHeight;//parseInt(window.innerHeight/50)*50;
-var game_width =  360;//window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
-var tile_width = 40;//game_width/boardSizeWidth;
+var game_height = window.innerHeight;//parseInt(window.innerHeight/50)*50;
+var game_width =  window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
+var tile_width = 30;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
 game_state.score = 0;
@@ -184,11 +184,21 @@ game_state.main.prototype = {
         if (i.left != null) this.renderTile(p, i.left, x - tile_width, y);
         if (i.right != null) this.renderTile(p, i.right, x + tile_width, y);
     },
+    updateTilePositionTest: function (i, x, y) {
+        i.sprite.x = x;
+        i.sprite.y = y;
+
+        if (i.top != null) this.updateTilePositionTest( i.top, x, y-tile_width);
+        if (i.bottom != null) this.updateTilePositionTest(i.bottom, x, y+tile_width);
+        if (i.left != null) this.updateTilePositionTest(i.left, x-tile_width, y);
+        if (i.right != null) this.updateTilePositionTest( i.right, x+tile_width, y);
+    },
     updateTilePosition: function (s, i, x, y) {
         if (i.sprite != s) {
             i.sprite.x += x;
             i.sprite.y += y;
         }
+        else console.log(x+ " " +y);
         if (i.top != null) this.updateTilePosition(s, i.top, x, y);
         if (i.bottom != null) this.updateTilePosition(s, i.bottom, x, y);
         if (i.left != null) this.updateTilePosition(s, i.left, x, y);
@@ -346,7 +356,10 @@ game_state.main.prototype = {
         //console.log(this.allObj[7]);
     },
     onDragUpdate: function (sprite, pointer, dragX, dragY, snapPoint) {
-        this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
+        result=parseInt(sprite.x - sprite.cx) + " " + parseInt(sprite.y - sprite.cy);
+        //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
+        this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+        this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
     },
@@ -366,13 +379,17 @@ game_state.main.prototype = {
             sprite.y = n;
         else
             sprite.y = n + tile_width;
-        this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
+        //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
+        this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+        this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
         if (this.isPieceCollapse(sprite.pointobj.parent)) { //Check collapse
             sprite.x = sprite.beforeMoveX;
             sprite.y = sprite.beforeMoveY;
-            this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
+            this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+            this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
+            //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
         }
 
 
