@@ -96,7 +96,7 @@ var level1={
         {"isSolved":false,"value":[8,9,10],"text":"GIO"},
         {"isSolved":false,"value":[11,12,7,8],"text":"SONG"},
     ]
-    ,clue:"B„i bi?n"
+    ,clue:"B√£i bi·ªÉn"
 }
 var level2={
     obj:[
@@ -182,7 +182,7 @@ var level2={
         {"isSolved":false,"value":[19,20,17],"text":"RAN"},
         {"isSolved":false,"value":[19,21,22],"text":"RUA"},
     ]
-    ,clue:"Lo‡i bÚ s·t"
+    ,clue:"Lo√†i b√≤ s√°t"
 }
 var level3={
     obj:[
@@ -230,7 +230,7 @@ var level3={
         {"isSolved":false,"value":[2,3,9],"text":"TAI"},
         {"isSolved":false,"value":[8,9,10,6,7],"text":"MIENG"},
     ]
-    ,clue:"KhuÙn m?t"
+    ,clue:"Khu√¥n m·∫∑t"
 }
 var level4={
     obj:[
@@ -355,7 +355,7 @@ var level4={
         {"isSolved":false,"value":[22,21,20,19,18,32,33,34],"text":"MITHUAT"},
         {"isSolved":false,"value":[28,27,25,29,30,31],"text":"AMNHAC"},
     ]
-    ,clue:"MÙn h?c ? tr??ng"
+    ,clue:"M√¥n h·ªçc ·ªü tr∆∞·ªùng"
 }
 var level5={
     obj:[
@@ -443,7 +443,7 @@ var level5={
         {"isSolved":false,"value":[0,1,2,3,9,10],"text":"NHANGO"},
          {"isSolved":false,"value":[16,15,14,13,17,18,19],"text":"DONGCOC"},
     ]
-    ,clue:"NgÙ Quy?n"
+    ,clue:"Ng√¥ Quy·ªÅn"
 }
 var level6={
     obj:[
@@ -538,7 +538,7 @@ var level6={
         
         
     ]
-    ,clue:"Kh·nh HÚa"
+    ,clue:"Kh√°nh h√≤a"
 }
 var level7={
     obj:[
@@ -614,7 +614,7 @@ var level7={
         {"isSolved":false,"value":[5,6,7,8,9,14,15],"text":"MANGCAU"},
         {"isSolved":false,"value":[16,15,17,18],"text":"BUOI"},
     ]
-    ,clue:"Tr·i c‚y"
+    ,clue:"Tr√°i c√¢y"
 }
 var level8={
     obj:[
@@ -722,6 +722,122 @@ var level8={
 		{"isSolved":false,"value":[22,21,20,19,18,15,16,17],"text":"SONGTHAN"},
 		{"isSolved":false,"value":[23,21,24,25,26,27,28],"text":"LOCXOAY"},
     ]
-    ,clue:"ThiÍn tai"
+    ,clue:"Thi√™n tai"
 }
-var alllevel=[level1,level2,level3,level4,level5,level6,level7,level8];
+var level9={
+    obj:[
+        {
+            "top": -1, "left": -1, "bottom": 1, "right": -1, "value": "C","idx":0, "initX":50,"initY":600
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": 2, "right": -1, "value": "A","idx":1
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": 3, "right": -1, "value": "U","idx":2
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "L","idx":3
+        }, 
+		
+		{
+            "top": -1, "left": -1, "bottom": 5, "right": -1, "value": "O","idx":4, "initX":400,"initY":50
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": 6, "right": -1, "value": "N","idx":5
+        }, 
+		{
+            "top": -1, "left": 7, "bottom": -1, "right": -1, "value": "G","idx":6
+        }, 
+		{
+            "top": -1, "left": 8, "bottom": -1, "right": -1, "value": "N","idx":7
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "O","idx":8
+        }, 
+		
+		{
+            "top": 10, "left": -1, "bottom": -1, "right": -1, "value": "Y","idx":9, "initX":100,"initY":350
+        }, 
+		{
+            "top": 11, "left": -1, "bottom": -1, "right": -1, "value": "A","idx":10
+        }, 
+		{
+            "top": 14, "left": -1, "bottom": -1, "right": 12, "value": "D","idx":11
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 13, "value": "A","idx":12
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "B","idx":13
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "Y","idx":14
+        }, 
+		
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 16, "value": "D","idx":15, "initX":250,"initY":750
+        }, 
+		{
+            "top": 18, "left": -1, "bottom": -1, "right": 17, "value": "A","idx":16
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "C","idx":17
+        }, 
+		{
+            "top": 19, "left": -1, "bottom": -1, "right": -1, "value": "H","idx":18
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "N","idx":19
+        }, 
+		
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 21, "value": "A","idx":20, "initX":100,"initY":450
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "U","idx":21
+        }, 
+		
+		{
+            "top": -1, "left": -1, "bottom": 23, "right": -1, "value": "O","idx":22, "initX":300,"initY":350
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": 24, "right": -1, "value": "I","idx":23
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": 25, "right": -1, "value": "L","idx":24
+        }, 
+		{
+            "top": -1, "left": 27, "bottom": 26, "right": 28, "value": "O","idx":25
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "I","idx":26
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "B","idx":27
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "N","idx":28
+        }, 
+		
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 30, "value": "G","idx":29, "initX":50,"initY":100
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 31, "value": "R","idx":30
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "O","idx":31
+        }, 
+		
+    ],
+    answer:[
+        {"isSolved":false,"value":[0,1,2,3,4,5,6],"text":"CAULONG"},
+        {"isSolved":false,"value":[11,12,13,8,7,6],"text":"DABONG"},
+		{"isSolved":false,"value":[15,16,17,20,21],"text":"DACAU"},
+		{"isSolved":false,"value":[19,18,16,14,11,10,9],"text":"NHAYDAY"},
+		{"isSolved":false,"value":[13,22,23,24,25,26],"text":"BOILOI"},
+		{"isSolved":false,"value":[27,25,28,29,30,31],"text":"BONGRO"},
+    ]
+    ,clue:"Th·ªÉ d·ª•c th·ªÉ thao"
+}
+var alllevel=[level1,level2,level3,level4,level5,level6,level7,level8,level9];
