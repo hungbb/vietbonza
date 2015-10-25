@@ -60,19 +60,19 @@ game_state.mainmenu.prototype = {
             stroke: "#258acc",
             strokeThickness: 8
         };
-        var size=50;
-        this.renderBoard(50);
+        var size=40;
+        this.renderBoard(40);
         //this.label_score = this.game.add.text(50, 150, "Bonza", style);
         var title1="PUZ";
         var title2="ZAA";
         for(var i in title1){
-            this.drawTextByTile(50+(size+1)*i,size*2,size,title1[i]);
+            this.drawTextByTile(40+(size+1)*i,size*2,size,title1[i]);
         }
         for(var i in title2){
-            this.drawTextByTile(50+size*2+(size+1)*i,size*3+1,size,title2[i]);
+            this.drawTextByTile(40+size*2+(size+1)*i,size*3+1,size,title2[i]);
         }
-        this.button = this.game.add.button(50, 350, 'playbtn', this.click, this);
-        this.infobutton = this.game.add.button(200, 350, 'infobtn', this.click, this);
+        this.button = this.game.add.button(size, size*7, 'playbtn', this.click, this);
+        this.infobutton = this.game.add.button(size*4, size*7, 'infobtn', this.click, this);
     },
     click: function () {
         game.state.start('main');
@@ -356,7 +356,7 @@ game_state.main.prototype = {
         //console.log(this.allObj[7]);
     },
     onDragUpdate: function (sprite, pointer, dragX, dragY, snapPoint) {
-        result=parseInt(sprite.x - sprite.cx) + " " + parseInt(sprite.y - sprite.cy);
+        //result=parseInt(sprite.x - sprite.cx) + " " + parseInt(sprite.y - sprite.cy);
         //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
         this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
         this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
