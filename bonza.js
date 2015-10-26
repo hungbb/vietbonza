@@ -358,7 +358,7 @@ game_state.main.prototype = {
     onDragUpdate: function (sprite, pointer, dragX, dragY, snapPoint) {
         //result=parseInt(sprite.x - sprite.cx) + " " + parseInt(sprite.y - sprite.cy);
         //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
-        this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+        if(sprite.pointobj.parent!=sprite.pointobj) this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
         this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
@@ -380,14 +380,14 @@ game_state.main.prototype = {
         else
             sprite.y = n + tile_width;
         //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
-        this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+        if(sprite.pointobj.parent!=sprite.pointobj) this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
         this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
         if (this.isPieceCollapse(sprite.pointobj.parent)) { //Check collapse
             sprite.x = sprite.beforeMoveX;
             sprite.y = sprite.beforeMoveY;
-            this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+            if(sprite.pointobj.parent!=sprite.pointobj) this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
             this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
             //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
         }
