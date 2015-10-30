@@ -387,7 +387,8 @@ game_state.main.prototype = {
         if (this.isPieceCollapse(sprite.pointobj.parent)) { //Check collapse
             sprite.x = sprite.beforeMoveX;
             sprite.y = sprite.beforeMoveY;
-            if(sprite.pointobj.parent!=sprite.pointobj) this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+            if(sprite.pointobj.parent!=sprite.pointobj)
+                this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
             this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
             //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
         }
