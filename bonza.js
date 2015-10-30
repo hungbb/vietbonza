@@ -1,11 +1,12 @@
 // Initialize Phaser, and creates a 400x490px game
-var boardSizeWidth = 8, boardSizeheight= 13;
-var game_height = window.innerHeight;//parseInt(window.innerHeight/50)*50;
-var game_width =  window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
+var boardSizeWidth = 8, boardSizeheight = 13;
+var game_height = 640;//window.innerHeight;//parseInt(window.innerHeight/50)*50;
+var game_width = 360;//window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
 var tile_width = 30;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
 game_state.score = 0;
+game_state.clevel=0;
 // Creates a new 'main' state that wil contain the game
 var result = 'Clue:'; //- Width:' + game_width+ ' , Height:'+ game_height +' , Tile: ' + tile_width;
 game_state.mainmenu = function () {
@@ -21,9 +22,9 @@ game_state.mainmenu.prototype = {
         game.load.image("block", "assets/pipe.png");
         game_state.score = 0;
     },
-    drawTextByTile:function(x,y,size,text){
+    drawTextByTile: function (x, y, size, text) {
         var temps = game.add.sprite(x, y, 'atari');
-        temps.scale.setTo(size/50, size/50);
+        temps.scale.setTo(size / 50, size / 50);
         var t = game.add.text(14, 9, text, {
             font: "24px Comic Sans MS",
             fill: "#ffffff"
@@ -31,11 +32,11 @@ game_state.mainmenu.prototype = {
         temps.addChild(t);
         return temps
     },
-    renderBoard:function(size){
+    renderBoard: function (size) {
         var graphics = game.add.graphics(0, 0);
         var color = 0xD5EDF5;
-        for (j = 0; j <= parseInt(game_height/size) * size; j++) //render carreaux board
-            for (i = 0; i <= parseInt(game_width/size) * size; i++) {
+        for (j = 0; j <= parseInt(game_height / size) * size; j++) //render carreaux board
+            for (i = 0; i <= parseInt(game_width / size) * size; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
                 //  for (i = 0; i <= game_width; i++) {
                 if (i % size == 0 && j % size == 0) {
@@ -60,26 +61,131 @@ game_state.mainmenu.prototype = {
             stroke: "#258acc",
             strokeThickness: 8
         };
-        var size=40;
+        var size = 40;
         this.renderBoard(40);
         //this.label_score = this.game.add.text(50, 150, "Bonza", style);
-        var title1="PUZ";
-        var title2="ZAA";
-        for(var i in title1){
-            this.drawTextByTile(40+(size+1)*i,size*2,size,title1[i]);
+        var title1 = "PUZ";
+        var title2 = "ZAA";
+        for (var i in title1) {
+            this.drawTextByTile(40 + (size + 1) * i, size * 2, size, title1[i]);
         }
-        for(var i in title2){
-            this.drawTextByTile(40+size*2+(size+1)*i,size*3+1,size,title2[i]);
+        for (var i in title2) {
+            this.drawTextByTile(40 + size * 2 + (size + 1) * i, size * 3 + 1, size, title2[i]);
         }
-        this.button = this.game.add.button(size, size*7, 'playbtn', this.click, this);
-        this.infobutton = this.game.add.button(size*4, size*7, 'infobtn', this.click, this);
+        this.button = this.game.add.button(size, size * 7, 'playbtn', this.click, this);
+        this.infobutton = this.game.add.button(size * 4, size * 7, 'infobtn', this.click, this);
     },
     click: function () {
-        game.state.start('main');
+        game.state.start('levelmenu');
     },
-    update: function () {
+    render: function () {
     }
 };
+
+game_state.levelmenu = function () {
+
+}
+game_state.levelmenu.prototype = {
+    preload: function () {
+        this.game.stage.backgroundColor = "#71c5cf";
+        game.load.image("atari", "assets/pile.jpg");
+        game.load.image("playbtn", "assets/play.png");
+        game.load.image("infobtn", "assets/info.png");
+        game.load.image("block", "assets/pipe.png");
+        game_state.score = 0;
+    },
+    drawTextByTile: function (x, y, size, text) {
+        var temps = game.add.sprite(x, y, 'atari');
+        temps.scale.setTo(5.5, 1);
+        var t = game.add.text(5, 5, text, {
+            font: "24px Comic Sans MS",
+            fill: "#ffffff"
+        });
+        t.scale.setTo(1 / 5.5, 1);
+        //console.log(text);
+        temps.addChild(t);
+        temps.inputEnabled=true;
+        return temps
+    },
+    listobj: [],
+    isTouch: false,
+    myPointer: 0,
+    renderBoard: function (size) {
+        var graphics = game.add.graphics(0, 0);
+        var color = 0xD5EDF5;
+        for (j = 0; j <= parseInt(game_height / size) * size; j++) //render carreaux board
+            for (i = 0; i <= parseInt(game_width / size) * size; i++) {
+                //for (j = 0; j <= game_height; j++) //render carreaux board
+                //  for (i = 0; i <= game_width; i++) {
+                if (i % size == 0 && j % size == 0) {
+
+                    if (((i / size) + (j / size)) % 2 == 1) {
+                        color = 0xD5EDF0;
+                    } else {
+                        color = 0xB8E4F0;
+                    }
+                    graphics.beginFill(color);
+                    graphics.drawRect(i, j, size, size);
+                    graphics.endFill();
+                }
+            }
+        window.graphics = graphics;
+    },
+    create: function () {
+        var style = {
+            font: "bold 40pt Arial",
+            fill: "#ffffff",
+            align: "center",
+            stroke: "#258acc",
+            strokeThickness: 8
+        };
+        var size = 40;
+        this.renderBoard(40);
+        //this.label_score = this.game.add.text(50, 150, "Bonza", style);
+        for (var i in alllevel) this.listobj.push(this.drawTextByTile(40, 40 + 80 * i, 0, alllevel[i].clue));
+        //this.drawTextByTile(40,240,alllevel[1].clue);
+        this.myPointer = game.input.activePointer.y;
+        game.input.onDown.add(function (pointer) {
+            this.isTouch = true;
+            console.log("down")
+        });
+        game.input.onTap.add(this.click,this);
+        game.input.onUp.add(function (pointer) {
+            this.isTouch = false;
+            console.log("up")
+        });
+
+        //this.button = this.game.add.button(size, size*7, 'playbtn', this.click, this);
+        //this.infobutton = this.game.add.button(size*4, size*7, 'infobtn', this.click, this);
+    },
+    click: function (pointer) {
+        for(var i in this.listobj){
+            if(this.listobj[i].input.checkPointerOver(pointer)){
+                game_state.score=i;
+                break;
+            }
+        }
+        game.state.start('main');
+    },
+    render: function () {
+        var diff = (this.myPointer >= 0) ? game.input.activePointer.y - this.myPointer : 0;
+        if (game.input.activePointer.isDown) {
+            if (this.listobj[0].y+diff <= 60 && this.listobj[this.listobj.length - 1].y+diff >= game_height - 80)
+                diff+=0;
+            else
+                diff = 0;
+            for (var i in this.listobj)
+                    this.listobj[i].y += diff;
+
+
+            this.myPointer = game.input.activePointer.y;
+        }
+        else this.myPointer = -1;
+
+    }
+};
+
+
 game_state.main = function () {
 };
 game_state.main.prototype = {
@@ -93,7 +199,7 @@ game_state.main.prototype = {
     quizanswer: [],
     addTextTile: function (x, y, text) {
         var temps = game.add.sprite(x, y, 'atari');
-        temps.scale.setTo(tile_width/50, tile_width/50);
+        temps.scale.setTo(tile_width / 50, tile_width / 50);
         //  Enable input and allow for dragging
         temps.inputEnabled = true;
         temps.input.enableDrag();
@@ -111,10 +217,10 @@ game_state.main.prototype = {
     create: function () { // Fuction called after 'preload' to setup the game
         var graphics = game.add.graphics(0, 0);
         var color = 0xD5EDF5;
-        for (j = 0; j <= parseInt(game_height/tile_width-1) * tile_width; j++) //render carreaux board
-            for (i = 0; i <= parseInt(game_width/tile_width-1) * tile_width; i++) {
-        //for (j = 0; j <= game_height; j++) //render carreaux board
-          //  for (i = 0; i <= game_width; i++) {
+        for (j = 0; j <= parseInt(game_height / tile_width - 1) * tile_width; j++) //render carreaux board
+            for (i = 0; i <= parseInt(game_width / tile_width - 1) * tile_width; i++) {
+                //for (j = 0; j <= game_height; j++) //render carreaux board
+                //  for (i = 0; i <= game_width; i++) {
                 if (i % tile_width == 0 && j % tile_width == 0) {
 
                     if (((i / tile_width) + (j / tile_width)) % 2 == 1) {
@@ -134,8 +240,8 @@ game_state.main.prototype = {
         this.quizanswer = [];
         this.numOfSolved = 0;
 
-        var level=alllevel[game_state.score];
-        result='Clue: '+level.clue;
+        var level = alllevel[game_state.score];
+        result = 'Clue: ' + level.clue;
         for (var i in level.obj) {
             this.allObj.push({
                 "top": null,
@@ -147,8 +253,8 @@ game_state.main.prototype = {
                 isVisit: false,
                 sprite: null,
                 parent: null,
-                "initX": level.obj[i].initX*tile_width/50,
-                "initY": level.obj[i].initY*tile_width/50
+                "initX": level.obj[i].initX * tile_width / 50,
+                "initY": level.obj[i].initY * tile_width / 50
             });
         }
         for (var i in level.answer) {
@@ -188,17 +294,17 @@ game_state.main.prototype = {
         i.sprite.x = x;
         i.sprite.y = y;
 
-        if (i.top != null) this.updateTilePositionTest( i.top, x, y-tile_width);
-        if (i.bottom != null) this.updateTilePositionTest(i.bottom, x, y+tile_width);
-        if (i.left != null) this.updateTilePositionTest(i.left, x-tile_width, y);
-        if (i.right != null) this.updateTilePositionTest( i.right, x+tile_width, y);
+        if (i.top != null) this.updateTilePositionTest(i.top, x, y - tile_width);
+        if (i.bottom != null) this.updateTilePositionTest(i.bottom, x, y + tile_width);
+        if (i.left != null) this.updateTilePositionTest(i.left, x - tile_width, y);
+        if (i.right != null) this.updateTilePositionTest(i.right, x + tile_width, y);
     },
     updateTilePosition: function (s, i, x, y) {
         if (i.sprite != s) {
             i.sprite.x += x;
             i.sprite.y += y;
         }
-        else console.log(x+ " " +y);
+        else console.log(x + " " + y);
         if (i.top != null) this.updateTilePosition(s, i.top, x, y);
         if (i.bottom != null) this.updateTilePosition(s, i.bottom, x, y);
         if (i.left != null) this.updateTilePosition(s, i.left, x, y);
@@ -358,7 +464,7 @@ game_state.main.prototype = {
     onDragUpdate: function (sprite, pointer, dragX, dragY, snapPoint) {
         //result=parseInt(sprite.x - sprite.cx) + " " + parseInt(sprite.y - sprite.cy);
         //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
-        if(sprite.pointobj.parent!=sprite.pointobj) this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+        if (sprite.pointobj.parent != sprite.pointobj) this.changeTreeParent(sprite.pointobj.parent, sprite.pointobj);
         this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
@@ -380,15 +486,15 @@ game_state.main.prototype = {
         else
             sprite.y = n + tile_width;
         //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
-        if(sprite.pointobj.parent!=sprite.pointobj) this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+        if (sprite.pointobj.parent != sprite.pointobj) this.changeTreeParent(sprite.pointobj.parent, sprite.pointobj);
         this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
         sprite.cx = sprite.x;
         sprite.cy = sprite.y;
         if (this.isPieceCollapse(sprite.pointobj.parent)) { //Check collapse
             sprite.x = sprite.beforeMoveX;
             sprite.y = sprite.beforeMoveY;
-            if(sprite.pointobj.parent!=sprite.pointobj)
-                this.changeTreeParent(sprite.pointobj.parent,sprite.pointobj);
+            if (sprite.pointobj.parent != sprite.pointobj)
+                this.changeTreeParent(sprite.pointobj.parent, sprite.pointobj);
             this.updateTilePositionTest(sprite.pointobj, sprite.x, sprite.y);
             //this.updateTilePosition(sprite, sprite.pointobj.parent, parseInt(sprite.x - sprite.cx), parseInt(sprite.y - sprite.cy));
         }
@@ -415,7 +521,7 @@ game_state.main.prototype = {
             result = "Success";
             game_state.score++;
             setTimeout(function () {
-                if (game_state.score >= alllevel.length){
+                if (game_state.score >= alllevel.length) {
                     game.state.start('mainmenu');
                 }
                 else
@@ -431,4 +537,5 @@ game_state.main.prototype = {
 // Add and start the 'main' state to start the game
 game.state.add('main', game_state.main);
 game.state.add('mainmenu', game_state.mainmenu);
+game.state.add('levelmenu', game_state.levelmenu);
 game.state.start('mainmenu');
