@@ -1,7 +1,7 @@
 // Initialize Phaser, and creates a 400x490px game
 var boardSizeWidth = 8, boardSizeheight = 13;
-var game_height = 640;//window.innerHeight;//parseInt(window.innerHeight/50)*50;
-var game_width = 360;//window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
+var game_height = window.innerHeight;//parseInt(window.innerHeight/50)*50;
+var game_width = window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
 var tile_width = 30;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
@@ -142,7 +142,8 @@ game_state.levelmenu.prototype = {
         var size = 40;
         this.renderBoard(40);
         //this.label_score = this.game.add.text(50, 150, "Bonza", style);
-        for (var i in alllevel) this.listobj.push(this.drawTextByTile(40, 40 + 80 * i, 0, alllevel[i].clue));
+        for (var i in alllevel)
+            this.listobj.push(this.drawTextByTile(40, 40 + 80 * i, 0, alllevel[i].clue));
         //this.drawTextByTile(40,240,alllevel[1].clue);
         this.myPointer = game.input.activePointer.y;
         game.input.onDown.add(function (pointer) {
@@ -159,13 +160,20 @@ game_state.levelmenu.prototype = {
         //this.infobutton = this.game.add.button(size*4, size*7, 'infobtn', this.click, this);
     },
     click: function (pointer) {
+         var selectLevel=-1;
         for(var i in this.listobj){
             if(this.listobj[i].input.checkPointerOver(pointer)){
-                game_state.score=i;
+                selectLevel=i;
                 break;
             }
         }
-        game.state.start('main');
+        //console.log(game_stat.score);
+        //console.log(pointer);
+        if(selectLevel>=0){
+            game_state.score=selectLevel;
+            game.state.start('main');
+        }
+
     },
     render: function () {
         var diff = (this.myPointer >= 0) ? game.input.activePointer.y - this.myPointer : 0;
