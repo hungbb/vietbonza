@@ -1,7 +1,7 @@
 // Initialize Phaser, and creates a 400x490px game
 var boardSizeWidth = 8, boardSizeheight = 13;
-var game_height = 640;//window.innerHeight;//parseInt(window.innerHeight/50)*50;
-var game_width = 360;//window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
+var game_height = window.innerHeight;//parseInt(window.innerHeight/50)*50;
+var game_width = window.innerWidth;//parseInt(window.innerWidth/50)*50;//window.innerWidth;
 var tile_width = 30;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
