@@ -6,7 +6,7 @@ var tile_width = 30;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
 game_state.score = 0;
-game_state.clevel=0;
+game_state.clevel=window.localStorage.getItem("puzza_current_level") ? parseInt(window.localStorage.getItem("puzza_current_level")) : 0 ;
 // Creates a new 'main' state that wil contain the game
 var result = 'Clue:'; //- Width:' + game_width+ ' , Height:'+ game_height +' , Tile: ' + tile_width;
 game_state.mainmenu = function () {
@@ -20,6 +20,9 @@ game_state.mainmenu.prototype = {
         game.load.image("playbtn", "assets/play.png");
         game.load.image("infobtn", "assets/info.png");
         game.load.image("block", "assets/pipe.png");
+        game.load.audio('ambient', ['assets/music/humajataritee.ogg']);
+        game.load.audio('correct', ['assets/music/correct.ogg']);
+        game.load.audio('complete', ['assets/music/complete.ogg']);
         game_state.score = 0;
     },
     drawTextByTile: function (x, y, size, text) {
@@ -61,8 +64,8 @@ game_state.mainmenu.prototype = {
             stroke: "#258acc",
             strokeThickness: 8
         };
-        var size = 40;
-        this.renderBoard(40);
+        var size = 50;
+        this.renderBoard(50);
         //this.label_score = this.game.add.text(50, 150, "Bonza", style);
         var title1 = "PUZ";
         var title2 = "ZAA";
@@ -74,6 +77,10 @@ game_state.mainmenu.prototype = {
         }
         this.button = this.game.add.button(size, size * 7, 'playbtn', this.click, this);
         this.infobutton = this.game.add.button(size * 4, size * 7, 'infobtn', this.click, this);
+        music = game.add.audio('ambient');
+        music.play();
+        music.volume=0.2;
+        music.loopFull();
     },
     click: function () {
         game.state.start('levelmenu');
@@ -96,12 +103,14 @@ game_state.levelmenu.prototype = {
     },
     drawTextByTile: function (x, y, size, text) {
         var temps = game.add.sprite(x, y, 'atari');
-        temps.scale.setTo(5.5, 1);
+        var ratio=(game_width-size*2)/50;
+
+        temps.scale.setTo(ratio, 1);
         var t = game.add.text(5, 5, text, {
             font: "24px Comic Sans MS",
             fill: "#ffffff"
         });
-        t.scale.setTo(1 / 5.5, 1);
+        t.scale.setTo(1 / ratio, 1);
         //console.log(text);
         temps.addChild(t);
         temps.inputEnabled=true;
@@ -142,19 +151,17 @@ game_state.levelmenu.prototype = {
         var size = 40;
         this.renderBoard(40);
         //this.label_score = this.game.add.text(50, 150, "Bonza", style);
-        for (var i in alllevel)
-            this.listobj.push(this.drawTextByTile(40, 40 + 80 * i, 0, alllevel[i].clue));
+        for (var i in alllevel){
+            var text="";
+            if(i<=game_state.clevel)
+                text= alllevel[i].clue;
+            this.listobj.push(this.drawTextByTile(size, size + size*1.5 * i, size, text));
+        }
+
         //this.drawTextByTile(40,240,alllevel[1].clue);
         this.myPointer = game.input.activePointer.y;
-        game.input.onDown.add(function (pointer) {
-            this.isTouch = true;
-            console.log("down")
-        });
         game.input.onTap.add(this.click,this);
-        game.input.onUp.add(function (pointer) {
-            this.isTouch = false;
-            console.log("up")
-        });
+
 
         //this.button = this.game.add.button(size, size*7, 'playbtn', this.click, this);
         //this.infobutton = this.game.add.button(size*4, size*7, 'infobtn', this.click, this);
@@ -162,7 +169,7 @@ game_state.levelmenu.prototype = {
     click: function (pointer) {
          var selectLevel=-1;
         for(var i in this.listobj){
-            if(this.listobj[i].input.checkPointerOver(pointer)){
+            if(this.listobj[i].input.checkPointerOver(pointer) && i<=game_state.clevel){
                 selectLevel=i;
                 break;
             }
@@ -205,6 +212,7 @@ game_state.main.prototype = {
     allObj: [],
     numOfSolved: 0,
     quizanswer: [],
+    sound:{"correct":null,"complete":null},
     addTextTile: function (x, y, text) {
         var temps = game.add.sprite(x, y, 'atari');
         temps.scale.setTo(tile_width / 50, tile_width / 50);
@@ -224,9 +232,12 @@ game_state.main.prototype = {
     },
     create: function () { // Fuction called after 'preload' to setup the game
         var graphics = game.add.graphics(0, 0);
+
+        this.sound.correct = game.add.audio('correct');
+        this.sound.complete = game.add.audio('complete');
         var color = 0xD5EDF5;
-        for (j = 0; j <= parseInt(game_height / tile_width - 1) * tile_width; j++) //render carreaux board
-            for (i = 0; i <= parseInt(game_width / tile_width - 1) * tile_width; i++) {
+        for (j = 0; j <= parseInt(game_height / tile_width) * tile_width; j++) //render carreaux board
+            for (i = 0; i <= parseInt(game_width / tile_width) * tile_width; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
                 //  for (i = 0; i <= game_width; i++) {
                 if (i % tile_width == 0 && j % tile_width == 0) {
@@ -284,6 +295,15 @@ game_state.main.prototype = {
             }
 
         }
+
+        var style = {
+            font: "bold 12pt Arial",
+            fill: "#ffffff",
+            align: "center",
+            stroke: "#258acc",
+            strokeThickness: 8
+        };
+        this.game.add.text(5, 5,'Clue: ' + level.clue, style);
     },
     renderTile: function (p, i, x, y) { //Render a tile. p: parent, i: item to render, x,y: position.
         i.isVisit = true;
@@ -408,6 +428,19 @@ game_state.main.prototype = {
         else
             this.isReach = true;
     },
+    playSound:function(str){
+        switch(str){
+            case "correct":
+                this.sound.correct.play();
+                this.sound.correct.volume=0.1;
+                break;
+            case "complete":
+                this.sound.complete.play();
+                this.sound.complete.volume=0.1;
+                break;
+        }
+
+    },
     isReach: false,
     changeTreeParent: function (parent, dest) {
         this.isReach = false;
@@ -519,8 +552,10 @@ game_state.main.prototype = {
                     this.quizanswer[i].isSolved = true;
                     this.combineAnswerDown(_1stitem, this.quizanswer[i].value);
                 }
-                if (this.quizanswer[i].isSolved)
+                if (this.quizanswer[i].isSolved) {
                     this.numOfSolved++;
+                    if (this.numOfSolved < this.quizanswer.length) this.playSound("correct");
+                }
             }
 
         }
@@ -528,6 +563,10 @@ game_state.main.prototype = {
         if (this.numOfSolved >= this.quizanswer.length) {
             result = "Success";
             game_state.score++;
+            this.playSound("complete");
+            var clevel=window.localStorage.getItem("puzza_current_level") ? parseInt(window.localStorage.getItem("puzza_current_level")) : 0;
+            if(game_state.score>clevel)
+                window.localStorage.setItem("puzza_current_level", game_state.score);
             setTimeout(function () {
                 if (game_state.score >= alllevel.length) {
                     game.state.start('mainmenu');
@@ -539,7 +578,7 @@ game_state.main.prototype = {
 
     },
     render: function () {
-        game.debug.text(result, 10, 20);
+        //game.debug.text(result, 10, 20);
     }
 };
 // Add and start the 'main' state to start the game
