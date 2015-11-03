@@ -581,8 +581,25 @@ game_state.main.prototype = {
         //game.debug.text(result, 10, 20);
     }
 };
+
+game_state.info=function(){
+
+}
+game_state.info.prototype={
+    preload:function(){
+
+    },
+    create:function(){
+
+    },
+    render:function(){
+
+    }
+}
+
 // Add and start the 'main' state to start the game
 game.state.add('main', game_state.main);
 game.state.add('mainmenu', game_state.mainmenu);
 game.state.add('levelmenu', game_state.levelmenu);
+game.state.add('info', game_state.info);
 game.state.start('mainmenu');
