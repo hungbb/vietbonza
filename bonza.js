@@ -17,8 +17,8 @@ game_state.mainmenu.prototype = {
     preload: function () {
         this.game.stage.backgroundColor = "#71c5cf";
         game.load.image("atari", "assets/pile.jpg");
-        game.load.image("playbtn", "assets/play.png");
-        game.load.image("infobtn", "assets/info.png");
+        game.load.image("playbtn", "assets/playbtn.png");
+        game.load.image("infobtn", "assets/help.png");
         game.load.image("block", "assets/pipe.png");
         game.load.audio('ambient', ['assets/music/humajataritee.ogg']);
         game.load.audio('correct', ['assets/music/correct.ogg']);
@@ -38,8 +38,8 @@ game_state.mainmenu.prototype = {
     renderBoard: function (size) {
         var graphics = game.add.graphics(0, 0);
         var color = 0xD5EDF5;
-        for (j = 0; j <= parseInt(game_height / size) * size; j++) //render carreaux board
-            for (i = 0; i <= parseInt(game_width / size) * size; i++) {
+        for (j = 0; j <= parseInt(game_height/size)*size; j++) //render carreaux board
+            for (i = 0; i <= parseInt(game_width/size)*size ; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
                 //  for (i = 0; i <= game_width; i++) {
                 if (i % size == 0 && j % size == 0) {
@@ -64,26 +64,39 @@ game_state.mainmenu.prototype = {
             stroke: "#258acc",
             strokeThickness: 8
         };
-        var size = 50;
-        this.renderBoard(50);
+        var size = game_width/6;
+        this.renderBoard(size);
         //this.label_score = this.game.add.text(50, 150, "Bonza", style);
-        var title1 = "PUZ";
-        var title2 = "ZAA";
+        var title1 = "PUZZ";
+        var title2 = "ORD";
+        var left_margin=game_width/6;
+        var top_margin=game_height/6;
         for (var i in title1) {
-            this.drawTextByTile(40 + (size + 1) * i, size * 2, size, title1[i]);
+            this.drawTextByTile(size + (size + 1) * i, size * 2, size, title1[i]);
         }
         for (var i in title2) {
-            this.drawTextByTile(40 + size * 2 + (size + 1) * i, size * 3 + 1, size, title2[i]);
+            this.drawTextByTile(size + (size + 1) * 3, size*3+1+(size+1) * i, size, title2[i]);
         }
-        this.button = this.game.add.button(size, size * 7, 'playbtn', this.click, this);
-        this.infobutton = this.game.add.button(size * 4, size * 7, 'infobtn', this.click, this);
+        //this.button = this.game.add.button(size, size * 7, 'playbtn', this.click, this);
+        //this.infobutton = this.game.add.button(size * 4, size * 7, 'infobtn', this.click, this);
+        this.button=game.add.sprite(size, size*3+1+(size+1) * 1, 'playbtn');
+        this.button.scale.setTo(size*2 / 128, size*2 / 128);
+        this.button.inputEnabled = true;
+        this.button.events.onInputDown.add(this.click,this);
+        this.infobutton=game.add.sprite(size + (size + 1) * 2, size*3+1+(size+1) * 0, 'infobtn');
+        this.infobutton.scale.setTo(size / 128, size / 128);
+
         music = game.add.audio('ambient');
         music.play();
         music.volume=0.2;
         music.loopFull();
     },
     click: function () {
-        game.state.start('levelmenu');
+        this.button.alpha=0.6;
+        setTimeout(function () {
+            game.state.start('levelmenu');
+        }, 200);
+
     },
     render: function () {
     }
