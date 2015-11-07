@@ -39,7 +39,7 @@ game_state.mainmenu.prototype = {
     },
     renderBoard: function (size) {
         var graphics = game.add.graphics(0, 0);
-        var color = 0xD5EDF5;
+        var color = 0x033250;
         for (j = 0; j <= game_height; j++) //render carreaux board
             for (i = 0; i <= game_width; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
@@ -47,9 +47,9 @@ game_state.mainmenu.prototype = {
                 if (i % size == 0 && j % size == 0) {
 
                     if (((i / size) + (j / size)) % 2 == 1) {
-                        color = 0xD5EDF0;
+                        color = 0x033250;
                     } else {
-                        color = 0xB8E4F0;
+                        color = 0x053C5B;
                     }
                     graphics.beginFill(color);
                     graphics.drawRect(i, j, size, size);
@@ -61,7 +61,7 @@ game_state.mainmenu.prototype = {
     create: function () {
         var style = {
             font: "bold 40pt Arial",
-            fill: "#ffffff",
+            fill: "#000000",
             align: "center",
             stroke: "#258acc",
             strokeThickness: 8
@@ -125,10 +125,11 @@ game_state.levelmenu.prototype = {
         //game.load.image("infobtn", "assets/info.png");
         //game.load.image("block", "assets/pipe.png");
         game.load.image("backbtn", "assets/back.png");
+		game.load.image("levelblock","assets/pilemenu.jpg");
         game_state.score = 0;
     },
     drawTextByTile: function (x, y, size, text) {
-        var temps = game.add.sprite(x, y, 'atari');
+        var temps = game.add.sprite(x, y, 'levelblock');
         var ratio = (game_width - size * 2) / 50;
 
         temps.scale.setTo(ratio, 1);
@@ -147,7 +148,7 @@ game_state.levelmenu.prototype = {
     myPointer: 0,
     renderBoard: function (size) {
         var graphics = game.add.graphics(0, 0);
-        var color = 0xD5EDF5;
+        var color = 0xC6DFB8;
         for (j = 0; j <= parseInt(game_height / size) * size; j++) //render carreaux board
             for (i = 0; i <= parseInt(game_width / size) * size; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
@@ -155,9 +156,9 @@ game_state.levelmenu.prototype = {
                 if (i % size == 0 && j % size == 0) {
 
                     if (((i / size) + (j / size)) % 2 == 1) {
-                        color = 0xD5EDF0;
+                        color = 0xC6DFB8;
                     } else {
-                        color = 0xB8E4F0;
+                        color = 0xA2D1AD;
                     }
                     graphics.beginFill(color);
                     graphics.drawRect(i, j, size, size);
@@ -169,7 +170,7 @@ game_state.levelmenu.prototype = {
     create: function () {
         var style = {
             font: "bold 40pt Arial",
-            fill: "#ffffff",
+            fill: "#0A2B36",
             align: "center",
             stroke: "#258acc",
             strokeThickness: 8
@@ -263,7 +264,7 @@ game_state.main.prototype = {
         temps.events.onDragStop.add(this.onDragStop, this);
         var t = game.add.text(14, 9, text, {
             font: "24px Comic Sans MS",
-            fill: "#ffffff"
+            fill: "#0A2B36"
         });
         temps.addChild(t);
         return temps
@@ -278,7 +279,7 @@ game_state.main.prototype = {
 
         this.sound.correct = game.add.audio('correct');
         this.sound.complete = game.add.audio('complete');
-        var color = 0xD5EDF5;
+        var color = 0x70AC92;
         for (j = 0; j <= parseInt(game_height / tile_width) * tile_width; j++) //render carreaux board
             for (i = 0; i <= parseInt(game_width / tile_width) * tile_width; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
@@ -286,9 +287,9 @@ game_state.main.prototype = {
                 if (i % tile_width == 0 && j % tile_width == 0) {
 
                     if (((i / tile_width) + (j / tile_width)) % 2 == 1) {
-                        color = 0xD5EDF0;
+                        color = 0x70AC92;
                     } else {
-                        color = 0xB8E4F0;
+                        color = 0x88BEA4;
                     }
                     graphics.beginFill(color);
                     graphics.drawRect(i, j, tile_width, tile_width);
@@ -499,7 +500,7 @@ game_state.main.prototype = {
         if (obj.right != null) this.assignParent(parent, obj.right);
     },
     combineAnswerRight: function (start, answer) {
-        var newcolor = 0x71c5cf; //Math.random()*0xff0fff;
+        var newcolor = 0x30AED9; //Math.random()*0xff0fff;
         start.sprite.tint = newcolor;
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.allObj[answer[i]];
@@ -519,7 +520,7 @@ game_state.main.prototype = {
         console.log(this.allObj[8]);
     },
     combineAnswerDown: function (start, answer) {
-        var newcolor = 0x71c5cf; //Math.random()*0xff0fff;
+        var newcolor = 0x30AED9; //Math.random()*0xff0fff;
         start.sprite.tint = newcolor;
         for (i = 1; i <= answer.length - 1; i++) {
             var k = this.allObj[answer[i]];
@@ -640,7 +641,7 @@ game_state.info.prototype = {
     },
     renderBoard: function (size) {
         var graphics = game.add.graphics(0, 0);
-        var color = 0xD5EDF5;
+        var color = 0xC6DFB8;
         for (j = 0; j <= game_height; j++) //render carreaux board
             for (i = 0; i <= game_width; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
@@ -648,9 +649,9 @@ game_state.info.prototype = {
                 if (i % size == 0 && j % size == 0) {
 
                     if (((i / size) + (j / size)) % 2 == 1) {
-                        color = 0xD5EDF0;
+                        color = 0xC6DFB8;
                     } else {
-                        color = 0xB8E4F0;
+                        color = 0xA2D1AD;
                     }
                     graphics.beginFill(color);
                     graphics.drawRect(i, j, size, size);
@@ -673,7 +674,7 @@ game_state.info.prototype = {
         var style1 = { font: 'bold '+size/5+'pt Arial', fill: '#d33f77', align: 'left', wordWrap: true, wordWrapWidth: size*5 };
         var txt=this.game.add.text(size/2, size+size/2, "Sử dụng gợi ý để ghép các mảnh puzzord thành từ có nghĩa ", style1);
         this.game.add.text(size/2, size*2+size/2, "Các hàng ngang cột dọc sẽ có liên quan đến gợi ý ", style1);
-        this.game.add.text(size/2, size*6+size/2, "Developed by Nguyễn Phúc Thành Hưng, UIT -2015 ", style);
+        this.game.add.text(size/2, size*5+size/2, "Developed by Nguyễn Phúc Thành Hưng, UIT -2015 ", style);
     },
     click: function () {
         this.backbutton.alpha = 0.6;
