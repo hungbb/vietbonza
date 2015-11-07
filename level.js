@@ -838,4 +838,225 @@ var level9={
     ]
     ,clue:"Thể dục thể thao"
 }
-var alllevel=[level1,level2,level3,level4,level5,level6,level7,level8,level9];
+var level10={
+    obj:[
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 1, "value": "Q","idx":0, "initX":50,"initY":250
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 2, "value": "U","idx":1
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 3, "value": "A","idx":2
+        }, 
+        {
+            "top": 4, "left": -1, "bottom": -1, "right": -1, "value": "N","idx":3
+        }, 
+        {
+            "top": 5, "left": -1, "bottom": -1, "right": -1, "value": "A","idx":4
+        }, 
+        {
+            "top": 6, "left": -1, "bottom": -1, "right": -1, "value": "B","idx":5
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "I","idx":6
+        }, 
+		
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 8, "value": "G","idx":7, "initX":250,"initY":350
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 9, "value": "T","idx":8
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 10, "value": "R","idx":9
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 11, "value": "U","idx":10
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 12, "value": "N","idx":11 
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "G","idx":12
+        }, 
+       
+	   {
+            "top": -1, "left": -1, "bottom": -1, "right": 14, "value": "E","idx":13, "initX":50,"initY":450
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 15, "value": "N","idx":14
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 16, "value": "H","idx":15
+        }, 
+		{
+            "top": 18, "left": -1, "bottom": -1, "right": 17, "value": "U","idx":16
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "E","idx":17
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "N","idx":18
+        }, 
+		
+		{
+            "top": -1, "left": -1, "bottom": 20, "right": -1, "value": "T","idx":19,"initX":50,"initY":50
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "A","idx":20
+        }, 
+		
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 22, "value": "N","idx":21,"initX":350,"initY":50
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 23, "value": "G","idx":22
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": 24, "value": "U","idx":23
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": 25, "right": -1, "value": "Y","idx":24
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": 26, "right": -1, "value": "S","idx":25
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": 27, "right": -1, "value": "O","idx":26
+        }, 
+		{
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "N","idx":27
+        }, 
+    ],
+    answer:[
+        {"isSolved":false,"value":[0,1,2,3,7,8,9,10,11,12],"text":"QUANGTRUNG"},
+        {"isSolved":false,"value":[18,16,6,5,4,3],"text":"NUIBAN"},
+		{"isSolved":false,"value":[21,22,23,24,13,14,15,16,17],"text":"NGUYENHUE"},
+		{"isSolved":false,"value":[19,20,24,25,26,27],"text":"TAYSON"},
+    ]
+    ,clue:"Quang Trung"
+}
+var level11={
+    obj:[
+        {
+            "top": -1, "left": -1, "bottom": 1, "right": -1, "value": "I","idx":0, "initX":50,"initY":50
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": 2, "right": -1, "value": "N","idx":1
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 3, "value": "H","idx":2
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 4, "value": "A","idx":3
+        },   
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "I","idx":4
+        }, 
+		
+        {
+            "top": 6, "left": -1, "bottom": -1, "right": -1, "value": "N","idx":5, "initX":250,"initY":450
+        }, 
+        {
+            "top": 7, "left": -1, "bottom": -1, "right": -1, "value": "C","idx":6
+        },  
+        {
+            "top": 8, "left": 9, "bottom": -1, "right": -1, "value": "A","idx":7
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "B","idx":8
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "H","idx":9
+        }, 
+		
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 11, "value": "I","idx":10, "initX":250,"initY":150
+        },   
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 12, "value": "P","idx":11
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 13, "value": "H","idx":12
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 14, "value": "O","idx":13
+        }, 
+        {
+            "top": 16, "left": -1, "bottom": -1, "right": 15, "value": "N","idx":14
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "G","idx":15
+        }, 
+        {
+            "top": 17, "left": -1, "bottom": -1, "right": -1, "value": "A","idx":16
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "H","idx":17
+        }, 
+		
+   
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 19, "value": "T","idx":18, "initX":350,"initY":350
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 20, "value": "H","idx":19
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "A","idx":20
+        }, 
+        
+        {
+            "top": -1, "left": -1, "bottom": 22, "right": -1, "value": "O","idx":21, "initX":100,"initY":500
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 23, "value": "I","idx":22
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 24, "value": "N","idx":23
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 25, "value": "G","idx":24
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 26, "value": "U","idx":25
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 27, "value": "Y","idx":26
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 28, "value": "E","idx":27
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "N","idx":28
+        }, 
+		
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 30, "value": "D","idx":29, "initX":0,"initY":250
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 31, "value": "U","idx":30
+        }, 
+        {
+            "top": -1, "left": -1, "bottom": -1, "right": 32, "value": "O","idx":31
+        }, 
+		 {
+            "top": -1, "left": -1, "bottom": -1, "right": 33, "value": "N","idx":32
+        }, 
+		 {
+            "top": -1, "left": -1, "bottom": -1, "right": -1, "value": "G","idx":33
+        }, 
+      
+    ],
+    answer:[
+        {"isSolved":false,"value":[2,3,4,29,30,31,32,33],"text":"HAIDUONG"},
+        {"isSolved":false,"value":[8,7,6,5,0,1,2],"text":"BACNINH"},
+		{"isSolved":false,"value":[9,7,10,11,12,13,14,15],"text":"HAIPHONG"},
+		{"isSolved":false,"value":[17,16,14,21,22],"text":"HANOI"},
+		{"isSolved":false,"value":[18,19,20,22,23,24,25,26,27,28],"text":"THAINGUYEN"},
+		
+    ]
+    ,clue:"Miền Bắc"
+}
+var alllevel=[level1,level2,level3,level4,level5,level6,level7,level8,level9,level10,level11];
