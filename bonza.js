@@ -6,9 +6,10 @@ var tile_width = 30;//game_width/boardSizeWidth;
 var game = new Phaser.Game(game_width, game_height, Phaser.CANVAS, 'game_div');
 var game_state = {};
 game_state.score = 0;
-game_state.clevel=window.localStorage.getItem("puzza_current_level") ? parseInt(window.localStorage.getItem("puzza_current_level")) : 0 ;
+game_state.clevel = window.localStorage.getItem("puzza_current_level") ? parseInt(window.localStorage.getItem("puzza_current_level")) : 0;
 // Creates a new 'main' state that wil contain the game
 var result = 'Clue:'; //- Width:' + game_width+ ' , Height:'+ game_height +' , Tile: ' + tile_width;
+var music = null;
 game_state.mainmenu = function () {
 
 }
@@ -23,6 +24,7 @@ game_state.mainmenu.prototype = {
         game.load.audio('ambient', ['assets/music/humajataritee.ogg']);
         game.load.audio('correct', ['assets/music/correct.ogg']);
         game.load.audio('complete', ['assets/music/complete.ogg']);
+
         game_state.score = 0;
     },
     drawTextByTile: function (x, y, size, text) {
@@ -38,8 +40,8 @@ game_state.mainmenu.prototype = {
     renderBoard: function (size) {
         var graphics = game.add.graphics(0, 0);
         var color = 0xD5EDF5;
-        for (j = 0; j <= parseInt(game_height/size)*size; j++) //render carreaux board
-            for (i = 0; i <= parseInt(game_width/size)*size ; i++) {
+        for (j = 0; j <= game_height; j++) //render carreaux board
+            for (i = 0; i <= game_width; i++) {
                 //for (j = 0; j <= game_height; j++) //render carreaux board
                 //  for (i = 0; i <= game_width; i++) {
                 if (i % size == 0 && j % size == 0) {
@@ -64,37 +66,47 @@ game_state.mainmenu.prototype = {
             stroke: "#258acc",
             strokeThickness: 8
         };
-        var size = game_width/6;
+        var size = Math.min(parseInt(game_width / 6), 120);
         this.renderBoard(size);
         //this.label_score = this.game.add.text(50, 150, "Bonza", style);
         var title1 = "PUZZ";
         var title2 = "ORD";
-        var left_margin=game_width/6;
-        var top_margin=game_height/6;
+        var left_margin = game_width / 6;
+        var top_margin = game_height / 6;
         for (var i in title1) {
             this.drawTextByTile(size + (size + 1) * i, size * 2, size, title1[i]);
         }
         for (var i in title2) {
-            this.drawTextByTile(size + (size + 1) * 3, size*3+1+(size+1) * i, size, title2[i]);
+            this.drawTextByTile(size + (size + 1) * 3, size * 3 + 1 + (size + 1) * i, size, title2[i]);
         }
         //this.button = this.game.add.button(size, size * 7, 'playbtn', this.click, this);
         //this.infobutton = this.game.add.button(size * 4, size * 7, 'infobtn', this.click, this);
-        this.button=game.add.sprite(size, size*3+1+(size+1) * 1, 'playbtn');
-        this.button.scale.setTo(size*2 / 128, size*2 / 128);
+        this.button = game.add.sprite(size, size * 3 + 1 + (size + 1) * 1, 'playbtn');
+        this.button.scale.setTo(size * 2 / 128, size * 2 / 128);
         this.button.inputEnabled = true;
-        this.button.events.onInputDown.add(this.click,this);
-        this.infobutton=game.add.sprite(size + (size + 1) * 2, size*3+1+(size+1) * 0, 'infobtn');
+        this.button.events.onInputDown.add(this.click, this);
+        this.infobutton = game.add.sprite(size + (size + 1) * 2, size * 3 + 1 + (size + 1) * 0, 'infobtn');
         this.infobutton.scale.setTo(size / 128, size / 128);
-
-        music = game.add.audio('ambient');
-        music.play();
-        music.volume=0.2;
-        music.loopFull();
+        this.infobutton.inputEnabled = true;
+        this.infobutton.events.onInputDown.add(this.infoclick, this);
+        if (music == null) {
+            music = game.add.audio('ambient');
+            music.play();
+            music.volume = 0.2;
+            music.loopFull();
+        }
     },
     click: function () {
-        this.button.alpha=0.6;
+        this.button.alpha = 0.6;
         setTimeout(function () {
             game.state.start('levelmenu');
+        }, 200);
+
+    },
+    infoclick: function () {
+        this.infobutton.alpha = 0.6;
+        setTimeout(function () {
+            game.state.start('info');
         }, 200);
 
     },
@@ -109,14 +121,15 @@ game_state.levelmenu.prototype = {
     preload: function () {
         this.game.stage.backgroundColor = "#71c5cf";
         game.load.image("atari", "assets/pile.jpg");
-        game.load.image("playbtn", "assets/play.png");
-        game.load.image("infobtn", "assets/info.png");
-        game.load.image("block", "assets/pipe.png");
+        //game.load.image("playbtn", "assets/play.png");
+        //game.load.image("infobtn", "assets/info.png");
+        //game.load.image("block", "assets/pipe.png");
+        game.load.image("backbtn", "assets/back.png");
         game_state.score = 0;
     },
     drawTextByTile: function (x, y, size, text) {
         var temps = game.add.sprite(x, y, 'atari');
-        var ratio=(game_width-size*2)/50;
+        var ratio = (game_width - size * 2) / 50;
 
         temps.scale.setTo(ratio, 1);
         var t = game.add.text(5, 5, text, {
@@ -126,10 +139,10 @@ game_state.levelmenu.prototype = {
         t.scale.setTo(1 / ratio, 1);
         //console.log(text);
         temps.addChild(t);
-        temps.inputEnabled=true;
+        temps.inputEnabled = true;
         return temps
     },
-    listobj: [],
+    listlevel: [],
     isTouch: false,
     myPointer: 0,
     renderBoard: function (size) {
@@ -163,34 +176,45 @@ game_state.levelmenu.prototype = {
         };
         var size = 40;
         this.renderBoard(40);
+        this.listlevel=[];
         //this.label_score = this.game.add.text(50, 150, "Bonza", style);
-        for (var i in alllevel){
-            var text="";
-            if(i<=game_state.clevel)
-                text= alllevel[i].clue;
-            this.listobj.push(this.drawTextByTile(size, size + size*1.5 * i, size, text));
+        this.backbutton = game.add.sprite(0, 0, 'backbtn');
+        this.backbutton.scale.setTo(size / 128, size / 128);
+        this.backbutton.inputEnabled = true;
+        this.backbutton.events.onInputDown.add(this.back, this);
+        for (var i in alllevel) {
+            var text = "";
+            if (i <= game_state.clevel)
+                text = alllevel[i].clue;
+            this.listlevel.push(this.drawTextByTile(size, size + size * 1.5 * i, size, text));
         }
 
         //this.drawTextByTile(40,240,alllevel[1].clue);
         this.myPointer = game.input.activePointer.y;
-        game.input.onTap.add(this.click,this);
+        game.input.onTap.add(this.click, this);
 
 
         //this.button = this.game.add.button(size, size*7, 'playbtn', this.click, this);
         //this.infobutton = this.game.add.button(size*4, size*7, 'infobtn', this.click, this);
     },
+    back:function(){
+        this.backbutton.alpha = 0.6;
+        setTimeout(function () {
+            game.state.start('mainmenu');
+        }, 100);
+    },
     click: function (pointer) {
-         var selectLevel=-1;
-        for(var i in this.listobj){
-            if(this.listobj[i].input.checkPointerOver(pointer) && i<=game_state.clevel){
-                selectLevel=i;
+        var selectLevel = -1;
+        for (var i in this.listlevel) {
+            if (this.listlevel[i].input.checkPointerOver(pointer) && i <= game_state.clevel) {
+                selectLevel = i;
                 break;
             }
         }
         //console.log(game_stat.score);
         //console.log(pointer);
-        if(selectLevel>=0){
-            game_state.score=selectLevel;
+        if (selectLevel >= 0) {
+            game_state.score = selectLevel;
             game.state.start('main');
         }
 
@@ -198,12 +222,12 @@ game_state.levelmenu.prototype = {
     render: function () {
         var diff = (this.myPointer >= 0) ? game.input.activePointer.y - this.myPointer : 0;
         if (game.input.activePointer.isDown) {
-            if (this.listobj[0].y+diff <= 60 && this.listobj[this.listobj.length - 1].y+diff >= game_height - 80)
-                diff+=0;
+            if (this.listlevel[0].y + diff <= 60 && this.listlevel[this.listlevel.length - 1].y + diff >= game_height - 80)
+                diff += 0;
             else
                 diff = 0;
-            for (var i in this.listobj)
-                    this.listobj[i].y += diff;
+            for (var i in this.listlevel)
+                this.listlevel[i].y += diff;
 
 
             this.myPointer = game.input.activePointer.y;
@@ -220,12 +244,13 @@ game_state.main.prototype = {
     preload: function () {
         this.game.stage.backgroundColor = "#71c5cf";
         game.load.image("atari", "assets/pile.jpg");
+        game.load.image("backbtn", "assets/back.png");
     },
     listobj: [],
     allObj: [],
     numOfSolved: 0,
     quizanswer: [],
-    sound:{"correct":null,"complete":null},
+    sound: {"correct": null, "complete": null},
     addTextTile: function (x, y, text) {
         var temps = game.add.sprite(x, y, 'atari');
         temps.scale.setTo(tile_width / 50, tile_width / 50);
@@ -245,6 +270,11 @@ game_state.main.prototype = {
     },
     create: function () { // Fuction called after 'preload' to setup the game
         var graphics = game.add.graphics(0, 0);
+        var size=tile_width;
+        this.backbutton = game.add.sprite(0, 0, 'backbtn');
+        this.backbutton.scale.setTo(size / 128, size / 128);
+        this.backbutton.inputEnabled = true;
+        this.backbutton.events.onInputDown.add(this.back, this);
 
         this.sound.correct = game.add.audio('correct');
         this.sound.complete = game.add.audio('complete');
@@ -316,7 +346,7 @@ game_state.main.prototype = {
             stroke: "#258acc",
             strokeThickness: 8
         };
-        this.game.add.text(5, 5,'Clue: ' + level.clue, style);
+        this.game.add.text(size*2, 5, 'Clue: ' + level.clue, style);
     },
     renderTile: function (p, i, x, y) { //Render a tile. p: parent, i: item to render, x,y: position.
         i.isVisit = true;
@@ -441,15 +471,15 @@ game_state.main.prototype = {
         else
             this.isReach = true;
     },
-    playSound:function(str){
-        switch(str){
+    playSound: function (str) {
+        switch (str) {
             case "correct":
                 this.sound.correct.play();
-                this.sound.correct.volume=0.1;
+                this.sound.correct.volume = 0.1;
                 break;
             case "complete":
                 this.sound.complete.play();
-                this.sound.complete.volume=0.1;
+                this.sound.complete.volume = 0.1;
                 break;
         }
 
@@ -577,8 +607,8 @@ game_state.main.prototype = {
             result = "Success";
             game_state.score++;
             this.playSound("complete");
-            var clevel=window.localStorage.getItem("puzza_current_level") ? parseInt(window.localStorage.getItem("puzza_current_level")) : 0;
-            if(game_state.score>clevel)
+            var clevel = window.localStorage.getItem("puzza_current_level") ? parseInt(window.localStorage.getItem("puzza_current_level")) : 0;
+            if (game_state.score > clevel)
                 window.localStorage.setItem("puzza_current_level", game_state.score);
             setTimeout(function () {
                 if (game_state.score >= alllevel.length) {
@@ -590,22 +620,69 @@ game_state.main.prototype = {
         }
 
     },
+    back:function(){
+        this.backbutton.alpha = 0.6;
+        setTimeout(function () {
+            game.state.start('levelmenu');
+        }, 100);
+    },
     render: function () {
         //game.debug.text(result, 10, 20);
     }
 };
 
-game_state.info=function(){
+game_state.info = function () {
 
 }
-game_state.info.prototype={
-    preload:function(){
+game_state.info.prototype = {
+    preload: function () {
+        game.load.image("backbtn", "assets/back.png");
+    },
+    renderBoard: function (size) {
+        var graphics = game.add.graphics(0, 0);
+        var color = 0xD5EDF5;
+        for (j = 0; j <= game_height; j++) //render carreaux board
+            for (i = 0; i <= game_width; i++) {
+                //for (j = 0; j <= game_height; j++) //render carreaux board
+                //  for (i = 0; i <= game_width; i++) {
+                if (i % size == 0 && j % size == 0) {
+
+                    if (((i / size) + (j / size)) % 2 == 1) {
+                        color = 0xD5EDF0;
+                    } else {
+                        color = 0xB8E4F0;
+                    }
+                    graphics.beginFill(color);
+                    graphics.drawRect(i, j, size, size);
+                    graphics.endFill();
+                }
+            }
+        window.graphics = graphics;
+    },
+    create: function () {
+        var size = Math.min(parseInt(game_width / 6), 120);
+        this.renderBoard(size);
+        this.backbutton = game.add.sprite(0, 0, 'backbtn');
+        this.backbutton.scale.setTo(size / 128, size / 128);
+        this.backbutton.inputEnabled = true;
+        this.backbutton.events.onInputDown.add(this.click, this);
+
+        var style = {
+            font: 'bold '+size/5+'pt Arial', fill: '#d33f77', align: 'center', wordWrap: true, wordWrapWidth: size*5
+        };
+        var style1 = { font: 'bold '+size/5+'pt Arial', fill: '#d33f77', align: 'left', wordWrap: true, wordWrapWidth: size*5 };
+        var txt=this.game.add.text(size/2, size+size/2, "Sử dụng gợi ý để ghép các mảnh puzzord thành từ có nghĩa ", style1);
+        this.game.add.text(size/2, size*2+size/2, "Các hàng ngang cột dọc sẽ có liên quan đến gợi ý ", style1);
+        this.game.add.text(size/2, size*6+size/2, "Developed by Nguyễn Phúc Thành Hưng, UIT -2015 ", style);
+    },
+    click: function () {
+        this.backbutton.alpha = 0.6;
+        setTimeout(function () {
+            game.state.start('mainmenu');
+        }, 100);
 
     },
-    create:function(){
-
-    },
-    render:function(){
+    render: function () {
 
     }
 }
