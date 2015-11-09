@@ -1,30 +1,50 @@
 <!DOCTYPE html>
 <html>
-    
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bonza</title>
 
-  <style>
-    html, body {padding: 0;margin: 0;}
-    #game_div1 {
-          width: 400px;
-          margin: auto;
-          z-index:0;
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Bonza</title>
+
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
         }
-  </style>
-  <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
-  <script type="text/javascript" src="phaser.min.js"></script>
-  <script type="text/javascript" src="level.js"></script>
-  <script type="text/javascript" src="bonza.js"></script>
+
+        #game_div1 {
+            width: 400px;
+            margin: auto;
+            z-index: 0;
+        }
+    </style>
+    <script type="text/javascript" src="phaser.min.js"></script>
+    <script type="text/javascript" src="level.js"></script>
+    <script type="text/javascript">
+        function getContent(url, callback) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    callback.call(this, xmlhttp.responseText);
+            };
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+        }
+        getContent("https://​crossorigin.me/http://nutrinfo.bl.ee/mylevel.json", function(data){
+            var a = JSON.parse(data);
+            console.log(a);
+            for(var i in a.onllevel)
+             alllevel.push(a.onllevel[i]);
+        });
+    </script>
+    <script type="text/javascript" src="bonza.js"></script>
 
 </head>
 
 <body>
-  
-  <div id="game_div">
-  </div>
+
+<div id="game_div">
+</div>
 
 </body>
 

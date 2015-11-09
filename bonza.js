@@ -606,10 +606,12 @@ game_state.main.prototype = {
         if (this.numOfSolved >= this.quizanswer.length) {
             result = "Success";
             game_state.score++;
+            game_state.clevel=game_state.score;
             this.playSound("complete");
             var clevel = window.localStorage.getItem("puzza_current_level") ? parseInt(window.localStorage.getItem("puzza_current_level")) : 0;
-            if (game_state.score > clevel)
+            if (game_state.score > clevel) {
                 window.localStorage.setItem("puzza_current_level", game_state.score);
+            }
             setTimeout(function () {
                 if (game_state.score >= alllevel.length) {
                     game.state.start('mainmenu');
